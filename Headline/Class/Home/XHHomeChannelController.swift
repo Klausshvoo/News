@@ -23,6 +23,9 @@ class XHHomeChannelController: UIViewController,XHPageController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(tableView)
+        category.queryNews { arr in
+            
+        }
     }
 
     override func didReceiveMemoryWarning() {

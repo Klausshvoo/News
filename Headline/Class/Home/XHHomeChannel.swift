@@ -18,7 +18,7 @@ class XHHomeChannel: NSObject,Decodable {
     
     var category: XHChannelCategory
     
-    enum CodingKeys: String,CodingKey {
+    private enum CodingKeys: String,CodingKey {
         case default_add,concern_id,icon_url,name,category
     }
     
@@ -177,11 +177,6 @@ class XHHomeChannel: NSObject,Decodable {
         }
     }
     
-    func queryNews(completion: @escaping ([Any]) -> Void) {
-        XHNetwork.shared.get("/api/news/feed/v58/?", parameters: ["device_id": device_id,"iid": iid,"category": category.rawValue,"device_platform": "iphone","version_code": "6.2.7"], isReadCache: true) { (response: XHNetworkResponse<XHHomeChannel>) in
-            
-        }
-    }
 }
 
 fileprivate struct Result: Decodable {
@@ -194,5 +189,21 @@ fileprivate struct Result: Decodable {
         
     }
     
+}
+
+extension XHHomeChannel.XHChannelCategory {
+    
+    func queryNews(completion: @escaping ([Any]) -> Void) {
+        XHNetwork.shared.get("/api/news/feed/v58/?", parameters: ["device_id": device_id,"iid": iid,"category": rawValue,"device_platform": "iphone","version_code": "6.2.7"], isReadCache: true) { (response: XHNetworkResponse<XHNewsResponse>) in
+            switch response {
+            case .success(let result):
+                for content in result.data {
+                    print(content.content)
+                }
+            case .failure(_):
+                print("网络请求错误")
+            }
+        }
+    }
 }
 
