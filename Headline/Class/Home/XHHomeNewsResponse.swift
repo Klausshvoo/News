@@ -10,7 +10,7 @@ import UIKit
 
 struct XHNewsResponse: Decodable {
 
-    var data: [XHResponseContent]
+    private var data: [XHResponseContent]
     
     var total_number: Int
     
@@ -19,6 +19,10 @@ struct XHNewsResponse: Decodable {
     var has_more_to_refresh: Bool
     
     var tips: XHResponseTip
+    
+    var models: [XHHomeNews] {
+        return data.map{ $0.model }
+    }
     
 }
 
@@ -34,4 +38,8 @@ struct XHResponseContent: Decodable {
     
     var content: String
     
+    fileprivate var model: XHHomeNews {
+       let data = content.data(using: .utf8)!
+        return try! JSONDecoder().decode(XHHomeNews.self, from: data)
+    }
 }

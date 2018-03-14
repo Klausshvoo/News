@@ -43,17 +43,6 @@ class XHPageCollectionView: UICollectionView {
 
 class XHPageCollectionViewCell: UICollectionViewCell {
     
-    lazy var viewController: UIViewController? = {
-        var responder = self.next
-        while responder != nil {
-            if let temp = responder as? UIViewController {
-                return temp
-            }
-            responder = responder?.next
-        }
-        return nil
-    }()
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         theme_backgroundColor = ThemeColorPicker.background
@@ -68,7 +57,6 @@ class XHPageCollectionViewCell: UICollectionViewCell {
     func setController(_ controller: UIViewController&XHPageController, inControl: Bool) {
         self.controller = controller
         if !inControl {
-            viewController?.addChildViewController(controller)
             controller.view.frame = bounds
         }
         controller.isInReuse = false
@@ -80,6 +68,7 @@ class XHPageCollectionViewCell: UICollectionViewCell {
         controller?.view.removeFromSuperview()
         (controller as? XHPageController)?.isInReuse = true
     }
+    
 }
 
 protocol XHPageController: NSObjectProtocol {

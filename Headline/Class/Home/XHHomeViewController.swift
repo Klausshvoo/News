@@ -111,8 +111,9 @@ extension XHHomeViewController: UICollectionViewDataSource {
             cell.setController(viewController, inControl: true)
         } else {
             let viewController = XHHomeChannelController()
-            viewController.category = .video
+            viewController.category = channel.category
             cell.setController(viewController, inControl: false)
+            addChildViewController(viewController)
         }
         return cell
     }
