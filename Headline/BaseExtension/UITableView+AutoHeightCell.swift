@@ -129,7 +129,12 @@ fileprivate class XHAutoHeightCellManager: NSObject {
         }
         execute(modelCell as! T)
         modelCell?.contentView.layoutSubviews()
-        let height = modelCell!.bottomView.frame.maxY + modelCell!.bottomMargin
+        var height = modelCell!.bottomMargin
+        var maxY: CGFloat = 0
+        for bottomView in modelCell!.bottomViews {
+            maxY = max(maxY, bottomView.frame.maxY)
+        }
+        height += maxY
         cache.updateValue(height, forKey: indexPath)
         return height
     }
@@ -141,7 +146,12 @@ protocol XHTableViewCellAutoHeight: NSObjectProtocol {}
 extension XHTableViewCellAutoHeight where Self: UITableViewCell {
     
     func setAutoHeight(bottomView: UIView, bottomMargin: CGFloat) {
-        self.bottomView = bottomView
+        self.bottomViews = [bottomView]
+        self.bottomMargin = bottomMargin
+    }
+    
+    func setAutoHeight(bottomViews: [UIView], bottomMargin: CGFloat) {
+        self.bottomViews = bottomViews
         self.bottomMargin = bottomMargin
     }
 }
@@ -150,9 +160,9 @@ extension UITableViewCell {
     
     private static let bottomViewKey = UnsafeRawPointer(bitPattern: "bottomViewKey".hashValue)!
     
-    fileprivate var bottomView: UIView {
+    fileprivate var bottomViews: [UIView] {
         get {
-            return objc_getAssociatedObject(self, UITableViewCell.bottomViewKey) as! UIView
+            return objc_getAssociatedObject(self, UITableViewCell.bottomViewKey) as! [UIView]
         }
         set {
             objc_setAssociatedObject(self, UITableViewCell.bottomViewKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)

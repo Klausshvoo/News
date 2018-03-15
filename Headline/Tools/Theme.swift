@@ -70,6 +70,12 @@ extension ThemeColorPicker {
     static let red = ThemeColorPicker(colors: "#c44943","#211d21")
 }
 
+extension ThemeCGColorPicker {
+    
+    static let background = ThemeColorPicker(colors: "#ffffff","#2a2a2a")
+    
+}
+
 enum ThemeFontStyle: Int {
     
     case small,mid,big,veryBig

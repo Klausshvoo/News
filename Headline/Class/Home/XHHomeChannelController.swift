@@ -58,21 +58,17 @@ class XHHomeChannelController: UIViewController,XHPageController {
                     self?.models.append(contentsOf: models)
                     self?.tableView.reloadData()
                 case .header:
-                    self?.models.remove(at: 0)
                     self?.models.insert(contentsOf: models, at: 0)
                     var insertIndexPaths = [IndexPath]()
                     for index in 0 ..< models.count {
                         insertIndexPaths.append(IndexPath(row: index, section: 0))
                     }
-                    
                     if #available(iOS 11.0, *) {
                         self?.tableView.performBatchUpdates({
-                            self?.tableView.deleteRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
                             self?.tableView.insertRows(at: insertIndexPaths, with: .automatic)
                         })
                     } else {
                         self?.tableView.beginUpdates()
-                        self?.tableView.deleteRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
                         self?.tableView.insertRows(at: insertIndexPaths, with: .automatic)
                         self?.tableView.endUpdates()
                     }
@@ -117,7 +113,7 @@ extension XHHomeChannelController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! XHHomeNewsCell
-        cell.setText(text: models[indexPath.row].abstract)
+        cell.setNews(models[indexPath.row])
         return cell
     }
     
@@ -127,7 +123,7 @@ extension XHHomeChannelController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return (tableView as! XHAutoHeightCellTableView).cellHeight(for: indexPath, execute: { (cell: XHHomeNewsCell) in
-            cell.setText(text: models[indexPath.row].abstract)
+            cell.setNews(models[indexPath.row])
         })
     }
     
