@@ -11,24 +11,28 @@ import SwiftTheme
 
 class XHTriangleViewController: UIViewController {
     
-    var contentInsets: UIEdgeInsets = UIEdgeInsets(top: 8, left: 10, bottom: 0, right: 10)
+    var cornerRadius: CGFloat = 5
     
-    var contentView: UIView = UIView()
+    var edgeMargin: CGFloat = 10
     
-    var contentSize: CGSize! {
+    var arrowHeight: CGFloat = 8
+    
+    var arrowWidth: CGFloat = 8
+    
+    private var contentSize: CGSize! {
         didSet {
-            layoutContentLayerAnchor()
+            drawContentSize()
         }
     }
     
+    fileprivate var contentLayer: CAShapeLayer!
+    
     private var anchorRect: CGRect!
+    
+    private var contentRect: CGRect!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(contentView)
-        contentView.theme_backgroundColor = ThemeColorPicker.background
-        contentView.layer.cornerRadius = 5
-        contentView.layer.masksToBounds = true
     }
     
     init(targetView: UIView) {
@@ -42,79 +46,69 @@ class XHTriangleViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func layoutContentLayerAnchor() {
-        var layerAnchor: CGPoint = .zero
-        var layerPosition: CGPoint = .zero
-        var x = anchorRect.midX
-        var y: CGFloat = 0
-        let contentWidth = contentSize.width
-        let height = contentSize.height
-        if x > UIScreen.main.bounds.midX {
-            x = x - 3 *  contentWidth / 4
-            layerAnchor.x = 1
-            layerPosition.x = x + contentWidth
-        } else {
-            x = x - contentWidth / 4
-            layerPosition.x = x
-        }
-        if x < contentInsets.left {
-            x = contentInsets.left
-            layerPosition.x = x
-        }
-        if x + contentWidth > UIScreen.main.bounds.width - contentInsets.right {
-            x = UIScreen.main.bounds.width - contentWidth - contentInsets.right
-            layerPosition.x = x + contentWidth
-        }
-        if anchorRect.midY < UIScreen.main.bounds.midY {
-            y = anchorRect.maxY
-            layerPosition.y = y
-        } else {
-            y = anchorRect.minY - contentInsets.top - height
-            layerAnchor.y = 1
-            layerPosition.y = y + height
-        }
-        contentView.frame = CGRect(x: x, y: y, width: contentWidth, height: height)
-        drawTriangle()
-        contentView.layer.position = layerPosition
-        contentView.layer.anchorPoint = layerAnchor
+    public func setContentSize(_ size: CGSize) -> CGRect {
+        contentSize = size
+        return contentRect
     }
     
-    private func drawTriangle() {
-        var x = anchorRect.midX - contentView.frame.minX
-        var y: CGFloat = 0
-        var leftPoint: CGPoint
-        var rightPoint: CGPoint
-        if x < 2 * contentInsets.top {
-            x = 2 * contentInsets.top
-        }
-        if x > contentView.bounds.width - 2 * contentInsets.top {
-            x = contentView.bounds.width - 2 * contentInsets.top
-        }
-        if anchorRect.midY < UIScreen.main.bounds.midY {
-            leftPoint = CGPoint(x: x - contentInsets.top, y: contentInsets.top)
-            rightPoint = CGPoint(x: x + contentInsets.top, y: contentInsets.top)
-        } else {
-            y = contentView.bounds.height
-            leftPoint = CGPoint(x: x - contentInsets.top, y: y - contentInsets.top)
-            rightPoint = CGPoint(x: x + contentInsets.top, y: y - contentInsets.top)
-        }
-        let arrowLayer = CAShapeLayer()
-        arrowLayer.frame = contentView.bounds
-        arrowLayer.fillColor = UIColor(hex: 0xffffff).cgColor
+    private func drawContentSize() {
+        let screenWidth = UIScreen.main.bounds.width
+        let screenHeight = UIScreen.main.bounds.height
         let path = UIBezierPath()
-        path.move(to: CGPoint(x: x, y: y))
-        path.addLine(to: rightPoint)
-        path.addLine(to: leftPoint)
-        path.lineJoinStyle = .round
-        arrowLayer.path = path.cgPath
-        contentView.layer.addSublayer(arrowLayer)
+        let arrowX = anchorRect.midX
+        var arrowY = anchorRect.maxY
+        var coefficient: CGFloat = 1
+        if anchorRect.maxY + contentSize.height > screenHeight - 32 {
+            arrowY = anchorRect.minY
+            coefficient = -1
+        }
+        path.move(to: CGPoint(x: arrowX, y: arrowY))
+        var secondX: CGFloat = arrowX - arrowWidth/2
+        if arrowX < edgeMargin + cornerRadius + arrowWidth {
+            secondX = edgeMargin + cornerRadius
+        } else if arrowX > screenWidth - (edgeMargin + cornerRadius + arrowWidth) {
+            secondX = screenWidth - (edgeMargin + cornerRadius + arrowWidth)
+        }
+        let secondY = coefficient * arrowHeight + arrowY
+        path.addLine(to: CGPoint(x: secondX, y: secondY))
+        var thirdX = arrowX - contentSize.width / 2 + cornerRadius
+        if thirdX < edgeMargin + cornerRadius {
+            thirdX = edgeMargin + cornerRadius
+        }
+        if arrowX + contentSize.width / 2 + edgeMargin > screenWidth {
+            thirdX = screenWidth - edgeMargin - contentSize.width + cornerRadius
+        }
+        if secondX != thirdX {
+            path.addLine(to: CGPoint(x: thirdX, y: secondY))
+        }
+        let isUp = coefficient == 1
+        path.addArc(withCenter: CGPoint(x: thirdX, y: secondY + coefficient * cornerRadius), radius: cornerRadius, startAngle: isUp ? .pi/2 * 3 : .pi/2, endAngle: .pi, clockwise: !isUp)
+        let fourthY = secondY + coefficient * (contentSize.height - cornerRadius - arrowHeight)
+        path.addLine(to: CGPoint(x: thirdX - cornerRadius, y: fourthY))
+        path.addArc(withCenter: CGPoint(x: thirdX,y: fourthY), radius: cornerRadius, startAngle: .pi , endAngle: isUp ? .pi/2 : .pi/2 * 3, clockwise: !isUp)
+        let fifthX = thirdX + contentSize.width - 2 * cornerRadius
+        path.addLine(to: CGPoint(x: fifthX, y: fourthY + coefficient * cornerRadius))
+        path.addArc(withCenter: CGPoint(x: fifthX,y: fourthY), radius: cornerRadius, startAngle: isUp ? .pi/2 : .pi/2 * 3 , endAngle: 0, clockwise: !isUp)
+        path.addLine(to: CGPoint(x: fifthX + cornerRadius, y: secondY + coefficient * cornerRadius))
+        path.addArc(withCenter: CGPoint(x: fifthX,y: secondY + coefficient * cornerRadius), radius: cornerRadius, startAngle: 0, endAngle: isUp ? .pi/2 * 3 : .pi/2 , clockwise: !isUp)
+        path.addLine(to: CGPoint(x: secondX + arrowWidth, y: secondY))
+        path.close()
+        contentLayer = CAShapeLayer()
+        contentLayer.path = path.cgPath
+        contentLayer.fillColor = UIColor.red.cgColor
+        view.layer.addSublayer(contentLayer)
+        print(contentLayer.frame)
+        let y = isUp ? arrowY : arrowY - contentSize.height
+        contentRect = CGRect(origin: CGPoint.init(x: thirdX - cornerRadius, y: y), size: contentSize)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
-        let touch = touches.first
-        if touch?.view != contentView {
-            dismiss(animated: true, completion: nil)
+        if let touch = touches.first  {
+            let point = touch.location(in: view)
+            if !contentRect.contains(point) {
+                dismiss(animated: true, completion: nil)
+            }
         }
     }
 
@@ -143,7 +137,7 @@ class XHTriangleViewControllerTransitioning: XHViewControllerAnimatedTransitioni
         let toVC = transitionContext.viewController(forKey: .to)!
         let fromVC = transitionContext.viewController(forKey: .from)!
         let containerView = transitionContext.containerView
-        var contentView: UIView
+        var contentView: CAShapeLayer
         switch type {
         case .present:
             let tempView = fromVC.view.snapshotView(afterScreenUpdates: false)!
@@ -151,13 +145,13 @@ class XHTriangleViewControllerTransitioning: XHViewControllerAnimatedTransitioni
             fromVC.view.isHidden = true
             containerView.addSubview(tempView)
             containerView.addSubview(toVC.view)
-            contentView = (toVC as! XHTriangleViewController).contentView
+            contentView = (toVC as! XHTriangleViewController).contentLayer
             toVC.view.frame = UIScreen.main.bounds
-            contentView.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+//            contentView.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
             if transitionContext.isAnimated {
                 UIView.animate(withDuration: 0.5, animations: {
                     tempView.alpha = 0.8
-                    contentView.transform = CGAffineTransform(scaleX: 1, y: 1)
+//                    contentView.transform = CGAffineTransform(scaleX: 1, y: 1)
                 }, completion: { (_) in
                     transitionContext.completeTransition(true)
                 })
@@ -168,11 +162,11 @@ class XHTriangleViewControllerTransitioning: XHViewControllerAnimatedTransitioni
         case .dismiss:
             let index = max(0, containerView.subviews.count - 2)
             let tempView = containerView.subviews[index]
-            contentView = (fromVC as! XHTriangleViewController).contentView
+            contentView = (fromVC as! XHTriangleViewController).contentLayer
             if transitionContext.isAnimated {
                 UIView.animate(withDuration: 0.5, animations: {
                     tempView.alpha = 1
-                    contentView.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+//                    contentView.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
                 }, completion: { (_) in
                     if transitionContext.transitionWasCancelled {
                         transitionContext.completeTransition(false)
@@ -183,7 +177,7 @@ class XHTriangleViewControllerTransitioning: XHViewControllerAnimatedTransitioni
                 })
             } else {
                 tempView.alpha = 1
-                contentView.transform = CGAffineTransform(scaleX: 1, y: 0.01)
+//                contentView.transform = CGAffineTransform(scaleX: 1, y: 0.01)
                 transitionContext.completeTransition(true)
                 toVC.view.isHidden = false
             }

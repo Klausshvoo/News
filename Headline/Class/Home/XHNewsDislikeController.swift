@@ -13,7 +13,7 @@ class XHNewsDislikeController: XHTriangleViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let width = UIScreen.main.bounds.width - 20
-        contentSize = CGSize(width: width, height: width / 2)
+        let contentRect = setContentSize(CGSize(width: width, height: width / 2))
     }
 
     override func didReceiveMemoryWarning() {
