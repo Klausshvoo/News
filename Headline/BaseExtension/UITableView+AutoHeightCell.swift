@@ -232,5 +232,18 @@ class XHAutoHeightCellTableView: UITableView {
     
 }
 
+extension UITableView {
+    
+    func update(_ closer: () -> Void,completion: ((Bool) -> Void)? = nil) {
+        if #available(iOS 11.0, *) {
+            performBatchUpdates(closer, completion: completion)
+        } else {
+            beginUpdates()
+            closer()
+            endUpdates()
+            completion?(true)
+        }
+    }
+}
 
 

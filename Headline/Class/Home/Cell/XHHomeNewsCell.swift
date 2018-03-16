@@ -12,6 +12,8 @@ import SwiftTheme
 import Kingfisher
 
 class XHHomeNewsCell: UITableViewCell {
+    
+    weak var delegate: XHNewsDislikeControllerDelegate?
 
     /// 标题
     private let titleLabel = UILabel()
@@ -214,7 +216,12 @@ class XHHomeNewsCell: UITableViewCell {
     }
     
     @objc private func didClickDislike(_ sender: UIButton) {
-        controller?.present(XHNewsDislikeController(targetView: sender), animated: true, completion: nil)
+        if _news?.filter_words != nil {
+            let dislikeController = XHNewsDislikeController(targetView: sender)
+            dislikeController.news = _news
+            dislikeController.delegate = delegate
+            controller?.present(dislikeController, animated: true, completion: nil)
+        }
     }
     
     private func layoutDislikeButtonRight(_ rightView: UIView,attribute: NSLayoutAttribute) {

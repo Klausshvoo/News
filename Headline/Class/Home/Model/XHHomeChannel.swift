@@ -177,6 +177,17 @@ class XHHomeChannel: NSObject,Decodable {
         }
     }
     
+    static func queryAllChannels(completion: @escaping ([XHHomeChannel]?) -> Void) {
+        XHNetwork.shared.get("/article/category/get_extra/v1/?", parameters: ["device_id": device_id,"iid": iid], isReadCache: true) { (response: XHNetworkResponse<Result>) in
+            switch response {
+            case .success(let result):
+                completion(result.data.data)
+            case .failure(_):
+                print("网络请求错误")
+            }
+        }
+    }
+    
 }
 
 fileprivate struct Result: Decodable {

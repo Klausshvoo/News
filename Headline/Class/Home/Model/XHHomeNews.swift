@@ -76,20 +76,20 @@ struct XHImageModel: Decodable {
         if url.hasSuffix(".webp") {
             var temp = url
             let begin = temp.index(temp.endIndex, offsetBy: -5)
-            temp.replaceSubrange(begin ..< temp.endIndex, with: ".png")
+            temp.replaceSubrange(begin ..< temp.endIndex, with: ".jpg")
             return temp
         }
         return url
     }
 }
 
-struct XHFilterWords: Decodable {
+class XHFilterWords: NSObject,Decodable {
     
-    var id: String
+    var id: String = ""
     
-    var is_selected: Bool
+    var is_selected: Bool = false
     
-    var name: String
+    var name: String = ""
     
 }
 

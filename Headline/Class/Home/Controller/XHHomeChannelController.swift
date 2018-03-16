@@ -63,16 +63,9 @@ class XHHomeChannelController: UIViewController,XHPageController {
                     for index in 0 ..< models.count {
                         insertIndexPaths.append(IndexPath(row: index, section: 0))
                     }
-                    if #available(iOS 11.0, *) {
-                        self?.tableView.performBatchUpdates({
-                            self?.tableView.insertRows(at: insertIndexPaths, with: .automatic)
-                        })
-                    } else {
-                        self?.tableView.beginUpdates()
+                    self?.tableView.update({
                         self?.tableView.insertRows(at: insertIndexPaths, with: .automatic)
-                        self?.tableView.endUpdates()
-                    }
-                    
+                    })
                 case .footer:
                     self?.models.append(contentsOf: models)
                 }
@@ -114,6 +107,7 @@ extension XHHomeChannelController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! XHHomeNewsCell
         cell.setNews(models[indexPath.row])
+        cell.delegate = self
         return cell
     }
     
@@ -130,4 +124,18 @@ extension XHHomeChannelController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(tableView.contentInset)
     }
+}
+
+extension XHHomeChannelController: XHNewsDislikeControllerDelegate {
+    
+    func dislikeController(_ controller: XHNewsDislikeController,didDislike news: XHHomeNews) {
+        if let row = models.index(of: news) {
+            let indexPath = IndexPath(row: row, section: 0)
+            models.remove(at: row)
+            self.tableView.update({
+                self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            })
+        }
+    }
+    
 }

@@ -72,7 +72,11 @@ extension ThemeColorPicker {
 
 extension ThemeCGColorPicker {
     
-    static let background = ThemeColorPicker(colors: "#ffffff","#2a2a2a")
+    static let background = ThemeCGColorPicker(colors: "#ffffff","#2a2a2a")
+    
+    static let red = ThemeCGColorPicker(colors: "#c44943","#211d21")
+    
+    static let gray = ThemeCGColorPicker(colors: "#a5a5a5","#6a6a6a")
     
 }
 

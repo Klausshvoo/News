@@ -50,6 +50,7 @@ class XHHomeViewController: XHViewController,XHTabBarItemController {
         tailView.theme_setBackgroundImage(ThemeImagePicker(names: "shadow_add_titlebar","shadow_add_titlebar_night"), forState: .normal)
         tailView.theme_setBackgroundImage(ThemeImagePicker(names: "shadow_add_titlebar","shadow_add_titlebar_night"), forState: .highlighted)
         tailView.sizeToFit()
+        tailView.addTarget(self, action: #selector(addChannels), for: .touchUpInside)
         pageTitleView.tailView = tailView
     }
     
@@ -64,6 +65,11 @@ class XHHomeViewController: XHViewController,XHTabBarItemController {
             $0.bottom.equalTo(view)
         }
         view.bringSubview(toFront: pageTitleView)
+    }
+    
+    @objc private func addChannels() {
+        let channelsController = XHChannelEditViewController()
+        present(channelsController, animated: true, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {

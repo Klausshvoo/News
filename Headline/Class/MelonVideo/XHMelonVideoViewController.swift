@@ -15,17 +15,6 @@ class XHMelonVideoViewController: XHViewController,XHTabBarItemController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-        let layer = CAShapeLayer()
-        layer.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-        layer.backgroundColor = UIColor.red.cgColor
-        view.layer.addSublayer(layer)
-        print(layer.anchorPoint)
-//        layer.anchorPoint = CGPoint(x: 1, y: 1)
-        layer.position = CGPoint(x: 100, y: 100)
-        print(layer.anchorPoint)
-        
     }
 
     override func didReceiveMemoryWarning() {
