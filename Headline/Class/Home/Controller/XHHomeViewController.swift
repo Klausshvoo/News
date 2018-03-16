@@ -69,6 +69,7 @@ class XHHomeViewController: XHViewController,XHTabBarItemController {
     
     @objc private func addChannels() {
         let channelsController = XHChannelEditViewController()
+        channelsController.addChannels = homeChannels
         present(channelsController, animated: true, completion: nil)
     }
     

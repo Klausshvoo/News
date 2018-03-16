@@ -38,6 +38,7 @@
 		0A65F47B205BA311004EE091 /* XHViewControllerInteractive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A65F47A205BA311004EE091 /* XHViewControllerInteractive.swift */; };
 		0A65F47D205BC242004EE091 /* XHBottomPresentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A65F47C205BC242004EE091 /* XHBottomPresentViewController.swift */; };
 		0A65F47F205BC273004EE091 /* XHChannelEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A65F47E205BC273004EE091 /* XHChannelEditViewController.swift */; };
+		403BCBE5205BF2D8002BEBAD /* XHHomeChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403BCBE4205BF2D8002BEBAD /* XHHomeChannelCell.swift */; };
 		40DDEF5D20580195000F8037 /* XHHomeNews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DDEF5C20580195000F8037 /* XHHomeNews.swift */; };
 		40DDEF5F20580294000F8037 /* XHHomeNewsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DDEF5E20580294000F8037 /* XHHomeNewsResponse.swift */; };
 		72074E9775759C43BED97EAB /* Pods_Headline.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A2F01DF039C10A382D93361 /* Pods_Headline.framework */; };
@@ -77,6 +78,7 @@
 		0A65F47A205BA311004EE091 /* XHViewControllerInteractive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHViewControllerInteractive.swift; sourceTree = "<group>"; };
 		0A65F47C205BC242004EE091 /* XHBottomPresentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHBottomPresentViewController.swift; sourceTree = "<group>"; };
 		0A65F47E205BC273004EE091 /* XHChannelEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHChannelEditViewController.swift; sourceTree = "<group>"; };
+		403BCBE4205BF2D8002BEBAD /* XHHomeChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHHomeChannelCell.swift; sourceTree = "<group>"; };
 		40DDEF5C20580195000F8037 /* XHHomeNews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHHomeNews.swift; sourceTree = "<group>"; };
 		40DDEF5E20580294000F8037 /* XHHomeNewsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHHomeNewsResponse.swift; sourceTree = "<group>"; };
 		6A2F01DF039C10A382D93361 /* Pods_Headline.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Headline.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -237,6 +239,7 @@
 			isa = PBXGroup;
 			children = (
 				0A2A9E8D2058E87000EC0D51 /* XHHomeNewsCell.swift */,
+				403BCBE4205BF2D8002BEBAD /* XHHomeChannelCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -424,6 +427,7 @@
 				0A65F479205B9B32004EE091 /* XHViewControllerBottomTransitioning.swift in Sources */,
 				0A62509F20561D6500BB07FE /* UIButton+Position.swift in Sources */,
 				0A0D88A9205777960050A55D /* XHPageCollectionView.swift in Sources */,
+				403BCBE5205BF2D8002BEBAD /* XHHomeChannelCell.swift in Sources */,
 				0A0D88B32057B1900050A55D /* XHHomeChannel.swift in Sources */,
 				0A6250A9205649A800BB07FE /* XHViewController.swift in Sources */,
 				40DDEF5D20580195000F8037 /* XHHomeNews.swift in Sources */,
