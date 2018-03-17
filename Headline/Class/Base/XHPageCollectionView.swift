@@ -52,10 +52,10 @@ class XHPageCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private var controller: UIViewController?
+    private var _controller: UIViewController?
     
     func setController(_ controller: UIViewController&XHPageController, inControl: Bool) {
-        self.controller = controller
+        self._controller = controller
         if !inControl {
             controller.view.frame = bounds
         }
@@ -65,8 +65,8 @@ class XHPageCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        controller?.view.removeFromSuperview()
-        (controller as? XHPageController)?.isInReuse = true
+        _controller?.view.removeFromSuperview()
+        (_controller as? XHPageController)?.isInReuse = true
     }
     
 }

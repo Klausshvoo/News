@@ -18,6 +18,8 @@ class XHHomeChannel: NSObject,Decodable {
     
     var category: XHChannelCategory
     
+    var isSelected: Bool = false
+    
     private enum CodingKeys: String,CodingKey {
         case default_add,concern_id,icon_url,name,category
     }

@@ -233,17 +233,6 @@ class XHHomeNewsCell: UITableViewCell {
         dislikeButtonRight?.isActive = true
     }
     
-    private var controller: UIViewController? {
-        var responder: UIResponder? = next
-        while responder != nil {
-            if let responder = responder as? UIViewController {
-                return responder
-            }
-            responder = responder?.next
-        }
-        return nil
-    }
-    
     private var _news: XHHomeNews?
     
     func setNews(_ news: XHHomeNews) {
@@ -257,7 +246,11 @@ class XHHomeNewsCell: UITableViewCell {
         if news.has_video {
             if news.video_style == 0 {//图在右侧
                 configureMainImageView(0)
-                rightImageView.kf.setImage(with: URL(string: news.middle_image!.path))
+                if let videoImage = news.video_detail_info?.detail_video_large_image {
+                    rightImageView.kf.setImage(with: URL(string: videoImage.path))
+                } else if let image = news.middle_image {
+                    rightImageView.kf.setImage(with: URL(string: image.path))
+                }
             } else {//显示大图
                 configureMainImageView(1)
                 largeImageView.kf.setImage(with: URL(string: news.large_image_list!.first!.path))

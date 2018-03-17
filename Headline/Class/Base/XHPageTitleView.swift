@@ -111,6 +111,9 @@ class XHPageTitleView: UIView {
         }
         didSelectItem(buttons[0])
     }
+    public func didSelectItem(at index: Int) {
+        didSelectItem(buttons[index])
+    }
     
     @objc private func didSelectItem(_ sender: UIButton) {
         responseSelectItem(sender)
@@ -128,6 +131,16 @@ class XHPageTitleView: UIView {
         sender.theme_setTitleColor(ThemeColorPicker.red, forState: .normal)
         sender.titleLabel?.transform = CGAffineTransform.identity
         currentItem = sender
+        if sender.frame == .zero {
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.25, execute: {[weak self] in
+                self?.scrollTo(sender)
+            })
+        } else {
+            scrollTo(sender)
+        }
+    }
+    
+    private func scrollTo(_ sender: UIButton) {
         var point: CGPoint
         if sender.frame.midX < bounds.width/2 {
             point = .zero

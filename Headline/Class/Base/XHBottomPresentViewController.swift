@@ -50,6 +50,10 @@ class XHBottomPersentViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .portrait
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -80,6 +84,7 @@ extension XHBottomPersentViewController: XHViewControllerInteractive {
     private func addInteractiveGestureRecognizer() {
         let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
         view.addGestureRecognizer(pan)
+        pan.delegate = self
     }
     
     @objc func handlePan(_ pan: UIPanGestureRecognizer) {
@@ -89,3 +94,5 @@ extension XHBottomPersentViewController: XHViewControllerInteractive {
         handleGestureRecognizer(pan.state, percent: percent)
     }
 }
+
+extension XHBottomPersentViewController: UIGestureRecognizerDelegate {}

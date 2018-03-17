@@ -36,6 +36,8 @@ class XHHomeNews: NSObject,Decodable {
     
     var video_duration: TimeInterval?
     
+    var video_detail_info: XHVideoDetailInfo?
+    
     private var publish_time: TimeInterval?
     
     var publishTime: String? {
@@ -121,4 +123,11 @@ extension Date {
     }
     
 }
+
+struct XHVideoDetailInfo: Decodable {
+    
+    var detail_video_large_image: XHImageModel
+    
+}
+
 

@@ -70,6 +70,7 @@ class XHHomeViewController: XHViewController,XHTabBarItemController {
     @objc private func addChannels() {
         let channelsController = XHChannelEditViewController()
         channelsController.addChannels = homeChannels
+        channelsController.delegate = self
         present(channelsController, animated: true, completion: nil)
     }
     
@@ -101,6 +102,8 @@ extension XHHomeViewController: XHPageTitleViewDelegate {
     
     func pageTitleView(_ pageTitleView: XHPageTitleView, didSelectItemAt index: Int) {
         pageContentView.contentOffset = CGPoint(x: pageContentView.bounds.width * CGFloat(index), y: 0)
+        homeChannels.filter{ $0.isSelected }.first?.isSelected = false
+        homeChannels[index].isSelected = true
     }
 }
 
@@ -124,5 +127,27 @@ extension XHHomeViewController: UICollectionViewDataSource {
         }
         return cell
     }
+}
+
+extension XHHomeViewController: XHChannelEditViewControllerDelegate {
+    
+    func channelEditController(_ controller: XHChannelEditViewController, didSelectChannelAt index: Int) {
+        pageTitleView.didSelectItem(at: index)
+    }
+    
+    func channelEditController(_ controller: XHChannelEditViewController, didUpdate channels: [XHHomeChannel]) {
+        homeChannels = channels
+        pageTitleView.reloadData()
+        pageContentView.reloadData()
+        DispatchQueue.global().async {[weak self] in
+            let categories = channels.map{ $0.category }
+            for viewController in self!.childViewControllers as! [XHHomeChannelController] {
+                if !categories.contains(viewController.category) {
+                    viewController.removeFromParentViewController()
+                }
+            }
+        }
+    }
+    
 }
 
