@@ -12,11 +12,22 @@ class XHHomeChannelController: UIViewController,XHPageController {
     
     var category: XHHomeChannel.XHChannelCategory! {
         didSet {
-            //根据类别进行布局
+            switch category! {
+            case .video:
+                cellIdentifier = "video"
+                cellClass = XHHomeVideoCell.self
+            default:
+                cellIdentifier = "normal"
+                cellClass = XHHomeNewsNormalCell.self
+            }
         }
     }
     
     var isInReuse: Bool = true
+    
+    private var cellIdentifier: String!
+    
+    private var cellClass: AnyClass!
     
     private let tableView = XHAutoHeightCellTableView(frame: .zero, style: .grouped)
     
@@ -43,7 +54,7 @@ class XHHomeChannelController: UIViewController,XHPageController {
         tableView.mj_header.setRefreshingTarget(self, refreshingAction: #selector(headerRefresh))
         tableView.mj_footer = XHRefreshGifFooter()
         tableView.mj_footer.setRefreshingTarget(self, refreshingAction: #selector(footerRefresh))
-        tableView.register(XHHomeNewsCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(cellClass, forCellReuseIdentifier: cellIdentifier)
     }
     
     private func queryNews(refreshType: XHRefreshType,completion: (() -> Void)? = nil) {
@@ -105,7 +116,7 @@ extension XHHomeChannelController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! XHHomeNewsCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! XHHomeNewsCell
         cell.setNews(models[indexPath.row])
         cell.delegate = self
         return cell
@@ -116,15 +127,25 @@ extension XHHomeChannelController: UITableViewDataSource {
 extension XHHomeChannelController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return (tableView as! XHAutoHeightCellTableView).cellHeight(for: indexPath, execute: { (cell: XHHomeNewsCell) in
-            cell.setNews(models[indexPath.row])
-        })
+        switch category! {
+        case .video:
+            return (tableView as! XHAutoHeightCellTableView).cellHeight(for: indexPath, execute: { (cell: XHHomeVideoCell) in
+                cell.setNews(models[indexPath.row])
+            })
+        default:
+            return (tableView as! XHAutoHeightCellTableView).cellHeight(for: indexPath, execute: { (cell: XHHomeNewsNormalCell) in
+                cell.setNews(models[indexPath.row])
+            })
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(tableView.contentInset)
     }
+
 }
+
+extension XHHomeChannelController: XHHomeNewsCellDelegate{}
 
 extension XHHomeChannelController: XHNewsDislikeControllerDelegate {
     

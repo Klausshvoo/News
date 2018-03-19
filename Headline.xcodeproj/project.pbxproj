@@ -13,11 +13,12 @@
 		0A0D88AF20579F650050A55D /* XHNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0D88AE20579F650050A55D /* XHNetwork.swift */; };
 		0A0D88B32057B1900050A55D /* XHHomeChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0D88B22057B1900050A55D /* XHHomeChannel.swift */; };
 		0A0D88B52057BCE40050A55D /* XHHomeChannelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0D88B42057BCE40050A55D /* XHHomeChannelController.swift */; };
-		0A1141FF205A500A00E93C98 /* XHVideoCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1141FE205A500A00E93C98 /* XHVideoCoverView.swift */; };
 		0A114201205A5C9700E93C98 /* XHTriangleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A114200205A5C9700E93C98 /* XHTriangleViewController.swift */; };
 		0A114203205A644D00E93C98 /* XHNewsDislikeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A114202205A644D00E93C98 /* XHNewsDislikeController.swift */; };
 		0A2A9E8C2058CC4D00EC0D51 /* UITableView+AutoHeightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2A9E8B2058CC4D00EC0D51 /* UITableView+AutoHeightCell.swift */; };
 		0A2A9E8E2058E87000EC0D51 /* XHHomeNewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2A9E8D2058E87000EC0D51 /* XHHomeNewsCell.swift */; };
+		0A316659205F464E00F7EE9A /* XHHomeVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A316658205F464E00F7EE9A /* XHHomeVideoCell.swift */; };
+		0A31665B205F49E700F7EE9A /* XHVideoCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A31665A205F49E600F7EE9A /* XHVideoCoverView.swift */; };
 		0A42F10E205CC604000BAA0E /* UIView+ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A42F10D205CC604000BAA0E /* UIView+ViewController.swift */; };
 		0A62507B2056119500BB07FE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A62507A2056119500BB07FE /* AppDelegate.swift */; };
 		0A6250822056119500BB07FE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A6250812056119500BB07FE /* Assets.xcassets */; };
@@ -52,11 +53,12 @@
 		0A0D88AE20579F650050A55D /* XHNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHNetwork.swift; sourceTree = "<group>"; };
 		0A0D88B22057B1900050A55D /* XHHomeChannel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHHomeChannel.swift; sourceTree = "<group>"; };
 		0A0D88B42057BCE40050A55D /* XHHomeChannelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHHomeChannelController.swift; sourceTree = "<group>"; };
-		0A1141FE205A500A00E93C98 /* XHVideoCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHVideoCoverView.swift; sourceTree = "<group>"; };
 		0A114200205A5C9700E93C98 /* XHTriangleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHTriangleViewController.swift; sourceTree = "<group>"; };
 		0A114202205A644D00E93C98 /* XHNewsDislikeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHNewsDislikeController.swift; sourceTree = "<group>"; };
 		0A2A9E8B2058CC4D00EC0D51 /* UITableView+AutoHeightCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+AutoHeightCell.swift"; sourceTree = "<group>"; };
 		0A2A9E8D2058E87000EC0D51 /* XHHomeNewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHHomeNewsCell.swift; sourceTree = "<group>"; };
+		0A316658205F464E00F7EE9A /* XHHomeVideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHHomeVideoCell.swift; sourceTree = "<group>"; };
+		0A31665A205F49E600F7EE9A /* XHVideoCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHVideoCoverView.swift; sourceTree = "<group>"; };
 		0A42F10D205CC604000BAA0E /* UIView+ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+ViewController.swift"; sourceTree = "<group>"; };
 		0A6250772056119500BB07FE /* Headline.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Headline.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A62507A2056119500BB07FE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -219,10 +221,10 @@
 				0A0D88AB20579E040050A55D /* XHRefreshGifHeader.swift */,
 				0A6250AD205664C700BB07FE /* XHPageTitleView.swift */,
 				0A0D88A8205777960050A55D /* XHPageCollectionView.swift */,
-				0A1141FE205A500A00E93C98 /* XHVideoCoverView.swift */,
 				0A114200205A5C9700E93C98 /* XHTriangleViewController.swift */,
 				0A65F478205B9B32004EE091 /* XHViewControllerBottomTransitioning.swift */,
 				0A65F47C205BC242004EE091 /* XHBottomPresentViewController.swift */,
+				0A31665A205F49E600F7EE9A /* XHVideoCoverView.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -243,6 +245,7 @@
 			children = (
 				0A2A9E8D2058E87000EC0D51 /* XHHomeNewsCell.swift */,
 				403BCBE4205BF2D8002BEBAD /* XHHomeChannelCell.swift */,
+				0A316658205F464E00F7EE9A /* XHHomeVideoCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -422,11 +425,12 @@
 				0A42F10E205CC604000BAA0E /* UIView+ViewController.swift in Sources */,
 				0A114201205A5C9700E93C98 /* XHTriangleViewController.swift in Sources */,
 				0A625097205619E400BB07FE /* XHMelonVideoViewController.swift in Sources */,
+				0A31665B205F49E700F7EE9A /* XHVideoCoverView.swift in Sources */,
 				0A65F470205B7566004EE091 /* Header.swift in Sources */,
 				0A65F47F205BC273004EE091 /* XHChannelEditViewController.swift in Sources */,
+				0A316659205F464E00F7EE9A /* XHHomeVideoCell.swift in Sources */,
 				0A6250AC2056614700BB07FE /* XHViewControllerAnimatedTransitioning.swift in Sources */,
 				0A65F47D205BC242004EE091 /* XHBottomPresentViewController.swift in Sources */,
-				0A1141FF205A500A00E93C98 /* XHVideoCoverView.swift in Sources */,
 				0A2A9E8C2058CC4D00EC0D51 /* UITableView+AutoHeightCell.swift in Sources */,
 				0A65F479205B9B32004EE091 /* XHViewControllerBottomTransitioning.swift in Sources */,
 				0A62509F20561D6500BB07FE /* UIButton+Position.swift in Sources */,

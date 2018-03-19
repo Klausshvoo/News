@@ -119,7 +119,7 @@ class XHNewsDislikeController: XHTriangleViewController {
 
 }
 
-protocol XHNewsDislikeControllerDelegate: NSObjectProtocol {
+@objc protocol XHNewsDislikeControllerDelegate: NSObjectProtocol {
     
     func dislikeController(_ controller: XHNewsDislikeController,didDislike news: XHHomeNews)
     

@@ -11,9 +11,24 @@ import SnapKit
 import SwiftTheme
 import Kingfisher
 
-class XHHomeNewsCell: UITableViewCell {
+class XHHomeNewsCell: UITableViewCell,XHTableViewCellAutoHeight {
     
-    weak var delegate: XHNewsDislikeControllerDelegate?
+    weak var delegate: XHHomeNewsCellDelegate?
+    
+    func setNews(_ news: XHHomeNews) {}
+    
+}
+
+protocol XHHomeNewsCellDelegate: NSObjectProtocol {}
+
+class XHHomeNewsNormalCell: XHHomeNewsCell {
+    
+    private weak var _delegate: XHNewsDislikeControllerDelegate? {
+        if let temp = self.delegate as? NSObject,temp.conforms(to: XHNewsDislikeControllerDelegate.self) {
+            return temp as? XHNewsDislikeControllerDelegate
+        }
+        return nil
+    }
 
     /// 标题
     private let titleLabel = UILabel()
@@ -219,7 +234,7 @@ class XHHomeNewsCell: UITableViewCell {
         if _news?.filter_words != nil {
             let dislikeController = XHNewsDislikeController(targetView: sender)
             dislikeController.news = _news
-            dislikeController.delegate = delegate
+            dislikeController.delegate = _delegate
             controller?.present(dislikeController, animated: true, completion: nil)
         }
     }
@@ -235,7 +250,7 @@ class XHHomeNewsCell: UITableViewCell {
     
     private var _news: XHHomeNews?
     
-    func setNews(_ news: XHHomeNews) {
+    override func setNews(_ news: XHHomeNews) {
         _news = news
         titleLabel.text = news.title
         configureHotLabel(news.stick_label)
@@ -324,8 +339,6 @@ class XHHomeNewsCell: UITableViewCell {
     }
     
 }
-
-extension XHHomeNewsCell: XHTableViewCellAutoHeight {}
 
 class XHLabel: UIView {
     

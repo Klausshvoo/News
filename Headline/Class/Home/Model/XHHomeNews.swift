@@ -34,7 +34,11 @@ class XHHomeNews: NSObject,Decodable {
     
     var image_list: [XHImageModel]?
     
-    var video_duration: TimeInterval?
+    private var video_duration: TimeInterval?
+    
+    lazy var videoDuration: String? = {
+        return video_duration?.durationString
+    }()
     
     var video_detail_info: XHVideoDetailInfo?
     
@@ -128,6 +132,16 @@ struct XHVideoDetailInfo: Decodable {
     
     var detail_video_large_image: XHImageModel
     
+}
+
+extension TimeInterval {
+    
+    var durationString: String {
+        let duration = Int(self)
+        let min = duration / 60
+        let second = duration % 60
+        return String(format: "%02d:%02d", min,second)
+    }
 }
 
 
