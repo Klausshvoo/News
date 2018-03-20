@@ -15,6 +15,8 @@
 		0A0D88B52057BCE40050A55D /* XHHomeChannelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0D88B42057BCE40050A55D /* XHHomeChannelController.swift */; };
 		0A114201205A5C9700E93C98 /* XHTriangleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A114200205A5C9700E93C98 /* XHTriangleViewController.swift */; };
 		0A114203205A644D00E93C98 /* XHNewsDislikeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A114202205A644D00E93C98 /* XHNewsDislikeController.swift */; };
+		0A19385E2060AA10006A4858 /* XHHomeVideoShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A19385D2060AA10006A4858 /* XHHomeVideoShareView.swift */; };
+		0A1938602060D73A006A4858 /* XHShareController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A19385F2060D73A006A4858 /* XHShareController.swift */; };
 		0A2A9E8C2058CC4D00EC0D51 /* UITableView+AutoHeightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2A9E8B2058CC4D00EC0D51 /* UITableView+AutoHeightCell.swift */; };
 		0A2A9E8E2058E87000EC0D51 /* XHHomeNewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2A9E8D2058E87000EC0D51 /* XHHomeNewsCell.swift */; };
 		0A316659205F464E00F7EE9A /* XHHomeVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A316658205F464E00F7EE9A /* XHHomeVideoCell.swift */; };
@@ -55,6 +57,8 @@
 		0A0D88B42057BCE40050A55D /* XHHomeChannelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHHomeChannelController.swift; sourceTree = "<group>"; };
 		0A114200205A5C9700E93C98 /* XHTriangleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHTriangleViewController.swift; sourceTree = "<group>"; };
 		0A114202205A644D00E93C98 /* XHNewsDislikeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHNewsDislikeController.swift; sourceTree = "<group>"; };
+		0A19385D2060AA10006A4858 /* XHHomeVideoShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHHomeVideoShareView.swift; sourceTree = "<group>"; };
+		0A19385F2060D73A006A4858 /* XHShareController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHShareController.swift; sourceTree = "<group>"; };
 		0A2A9E8B2058CC4D00EC0D51 /* UITableView+AutoHeightCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+AutoHeightCell.swift"; sourceTree = "<group>"; };
 		0A2A9E8D2058E87000EC0D51 /* XHHomeNewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHHomeNewsCell.swift; sourceTree = "<group>"; };
 		0A316658205F464E00F7EE9A /* XHHomeVideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHHomeVideoCell.swift; sourceTree = "<group>"; };
@@ -236,6 +240,7 @@
 				0A0D88B42057BCE40050A55D /* XHHomeChannelController.swift */,
 				0A114202205A644D00E93C98 /* XHNewsDislikeController.swift */,
 				0A65F47E205BC273004EE091 /* XHChannelEditViewController.swift */,
+				0A19385F2060D73A006A4858 /* XHShareController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -246,6 +251,7 @@
 				0A2A9E8D2058E87000EC0D51 /* XHHomeNewsCell.swift */,
 				403BCBE4205BF2D8002BEBAD /* XHHomeChannelCell.swift */,
 				0A316658205F464E00F7EE9A /* XHHomeVideoCell.swift */,
+				0A19385D2060AA10006A4858 /* XHHomeVideoShareView.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -422,6 +428,7 @@
 				0A625099205619F600BB07FE /* XHWeiHeadlineViewController.swift in Sources */,
 				0A6250A020561D6500BB07FE /* UIColor+Hex.swift in Sources */,
 				0A65F47B205BA311004EE091 /* XHViewControllerInteractive.swift in Sources */,
+				0A19385E2060AA10006A4858 /* XHHomeVideoShareView.swift in Sources */,
 				0A42F10E205CC604000BAA0E /* UIView+ViewController.swift in Sources */,
 				0A114201205A5C9700E93C98 /* XHTriangleViewController.swift in Sources */,
 				0A625097205619E400BB07FE /* XHMelonVideoViewController.swift in Sources */,
@@ -441,6 +448,7 @@
 				40DDEF5D20580195000F8037 /* XHHomeNews.swift in Sources */,
 				0A62507B2056119500BB07FE /* AppDelegate.swift in Sources */,
 				0A625095205619D100BB07FE /* XHHomeViewController.swift in Sources */,
+				0A1938602060D73A006A4858 /* XHShareController.swift in Sources */,
 				0A114203205A644D00E93C98 /* XHNewsDislikeController.swift in Sources */,
 				0A62509B20561A0600BB07FE /* XHSmallVideoViewController.swift in Sources */,
 				0A62508D2056165C00BB07FE /* XHTabBarController.swift in Sources */,

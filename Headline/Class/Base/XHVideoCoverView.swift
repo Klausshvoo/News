@@ -17,6 +17,10 @@ class XHVideoCoverView: UIView {
     
     private let durationLabel = UILabel()
     
+    private let titleLabel = UILabel()
+    
+    private let countLabel = UILabel()
+    
     convenience init() {
         self.init(frame: .zero)
         addSubview(imageView)
@@ -24,10 +28,13 @@ class XHVideoCoverView: UIView {
             $0.edges.equalToSuperview()
         }
         addSubview(playButton)
+        playButton.setBackgroundImage(UIImage(named: "titlebar_shadow"), for: .normal)
         playButton.setImage(UIImage(named: "video_play"), for: .normal)
         playButton.snp.makeConstraints{
-            $0.center.equalToSuperview()
+            $0.edges.equalToSuperview()
         }
+        configureTitleLabel()
+        configureCountLabel()
         durationLabel.font = UIFont.systemFont(ofSize: 9)
         durationLabel.theme_textColor = ThemeColorPicker.white
         addSubview(durationLabel)
@@ -41,6 +48,29 @@ class XHVideoCoverView: UIView {
             $0.height.equalTo(24)
         }
         durationLabel.textAlignment = .center
+        durationLabel.alpha = 0.6
+    }
+    
+    private func configureTitleLabel() {
+        addSubview(titleLabel)
+        titleLabel.numberOfLines = 0
+        titleLabel.font = UIFont.systemFont(ofSize: 16)
+        titleLabel.theme_textColor = ThemeColorPicker.white
+        titleLabel.snp.makeConstraints{
+            $0.left.equalTo(15)
+            $0.top.equalTo(10)
+            $0.right.equalTo(-15)
+        }
+    }
+    
+    private func configureCountLabel() {
+        addSubview(countLabel)
+        countLabel.font = UIFont.systemFont(ofSize: 10)
+        countLabel.theme_textColor = ThemeColorPicker.white
+        countLabel.snp.makeConstraints{
+            $0.top.equalTo(titleLabel.snp.bottom).offset(5)
+            $0.left.equalTo(15)
+        }
     }
     
     var imagePath: String? {
@@ -60,6 +90,18 @@ class XHVideoCoverView: UIView {
     var duration: String? {
         didSet {
             durationLabel.text = duration
+        }
+    }
+    
+    var title: String? {
+        didSet {
+            titleLabel.text = title
+        }
+    }
+    
+    var readCount: Int = 0 {
+        didSet {
+            countLabel.text = "\(readCount)次播放"
         }
     }
 }

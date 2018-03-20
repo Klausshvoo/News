@@ -10,10 +10,6 @@ import UIKit
 import SwiftTheme
 
 class XHHomeVideoCell: XHHomeNewsCell {
-
-    private let titleLabel = UILabel()
-    
-    private let countLabel = UILabel()
     
     private let coverView = XHVideoCoverView()
     
@@ -21,9 +17,11 @@ class XHHomeVideoCell: XHHomeNewsCell {
     
     private let nameLabel = UILabel()
     
+    private let useInfoButton = UIButton(type: .custom)
+    
     private let concernButton = UIButton(type: .custom)
     
-    private let shareView = UIView()
+    private let shareView = XHHomeVideoShareView()
     
     private let commentButton = UIButton(type: .custom)
     
@@ -32,34 +30,15 @@ class XHHomeVideoCell: XHHomeNewsCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureCoverView()
-        configureTitleLabel()
-        configureCountLabel()
+        configureMoreButton()
+        configureCommentButton()
+        configureConcernButton()
+        configureUserAvatarView()
+        configureShareView()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func configureTitleLabel() {
-        contentView.addSubview(titleLabel)
-        titleLabel.numberOfLines = 0
-        titleLabel.font = UIFont.systemFont(ofSize: 16)
-        titleLabel.theme_textColor = ThemeColorPicker.white
-        titleLabel.snp.makeConstraints{
-            $0.left.equalTo(15)
-            $0.top.equalTo(10)
-            $0.right.equalTo(-15)
-        }
-    }
-    
-    private func configureCountLabel() {
-        contentView.addSubview(countLabel)
-        countLabel.font = UIFont.systemFont(ofSize: 10)
-        countLabel.theme_textColor = ThemeColorPicker.white
-        countLabel.snp.makeConstraints{
-            $0.top.equalTo(titleLabel.snp.bottom).offset(5)
-            $0.left.equalTo(15)
-        }
     }
     
     private func configureCoverView() {
@@ -75,18 +54,121 @@ class XHHomeVideoCell: XHHomeNewsCell {
     }
     
     @objc private func shouldPlayVideo() {
-        
+        shouldBeginPlaying()
+    }
+    
+    private func configureMoreButton() {
+        contentView.addSubview(moreButton)
+        moreButton.theme_setImage(ThemeImagePicker(names: "more","more_night"), forState: .normal)
+        moreButton.addTarget(self, action: #selector(presentShareController), for: .touchUpInside)
+        moreButton.snp.makeConstraints{
+            $0.right.equalToSuperview()
+            $0.top.equalTo(coverView.snp.bottom)
+            $0.height.equalTo(44)
+            $0.width.greaterThanOrEqualTo(40)
+        }
+    }
+    
+    @objc private func presentShareController() {
+        let shareController = XHShareController()
+        controller?.present(shareController, animated: true, completion: nil)
+    }
+    
+    private func configureCommentButton() {
+        contentView.addSubview(commentButton)
+        commentButton.theme_setImage(ThemeImagePicker(names: "comment","comment_night"), forState: .normal)
+        commentButton.setTitle("0", for: .normal)
+        commentButton.theme_setTitleColor(ThemeColorPicker.black, forState: .normal)
+        commentButton.titleLabel?.font = UIFont.systemFont(ofSize: 12)
+        commentButton.snp.makeConstraints{
+            $0.width.greaterThanOrEqualTo(50)
+            $0.height.equalTo(44)
+            $0.top.equalTo(moreButton)
+            $0.right.equalTo(moreButton.snp.left).offset(-5)
+        }
+    }
+    
+    private func configureConcernButton() {
+        contentView.addSubview(concernButton)
+        concernButton.theme_setImage(ThemeImagePicker(names: "video_add","video_add_night"), forState: .normal)
+        concernButton.setTitle("关注", for: .normal)
+        concernButton.setTitle("已关注", for: .selected)
+        concernButton.theme_setTitleColor(ThemeColorPicker.black, forState: .normal)
+        concernButton.titleLabel?.font = UIFont.systemFont(ofSize: 12)
+        concernButton.snp.makeConstraints{
+            $0.width.greaterThanOrEqualTo(50)
+            $0.height.equalTo(44)
+            $0.top.equalTo(moreButton)
+            $0.right.equalTo(commentButton.snp.left).offset(-5)
+        }
+    }
+    
+    private func configureUserAvatarView() {
+        contentView.addSubview(useInfoButton)
+        contentView.addSubview(avatarView)
+        contentView.addSubview(nameLabel)
+        nameLabel.theme_textColor = ThemeColorPicker.black
+        nameLabel.font = UIFont.systemFont(ofSize: 13)
+        nameLabel.snp.makeConstraints{
+            $0.left.equalTo(15)
+            $0.top.equalTo(moreButton)
+            $0.bottom.equalTo(moreButton)
+        }
+        avatarView.layer.cornerRadius = 20
+        avatarView.layer.masksToBounds = true
+        avatarView.snp.makeConstraints{
+            $0.width.equalTo(40)
+            $0.height.equalTo(40)
+            $0.bottom.equalTo(nameLabel.snp.top).offset(7)
+            $0.left.equalTo(nameLabel)
+        }
+        useInfoButton.snp.makeConstraints{
+            $0.top.equalTo(avatarView)
+            $0.bottom.equalTo(nameLabel)
+            $0.left.equalTo(nameLabel)
+            $0.right.equalTo(nameLabel.snp.right)
+        }
+    }
+    
+    private func configureShareView() {
+        contentView.addSubview(shareView)
+        shareView.snp.makeConstraints{
+            $0.left.equalToSuperview()
+            $0.top.equalTo(nameLabel)
+            $0.height.equalTo(44)
+        }
+        shareView.animation(for: false)
     }
     
     private var _news: XHHomeNews?
     
     override func setNews(_ news: XHHomeNews) {
-        titleLabel.text = news.title
-        countLabel.text = "5次播放"
-        coverView.backgroundColor = UIColor.red
+        coverView.title = news.title
+        coverView.readCount = news.read_count
         coverView.duration = news.videoDuration
-        setAutoHeight(bottomView: coverView, bottomMargin: 44)
+        coverView.imagePath = news.video_detail_info?.detail_video_large_image.path
+        commentButton.setTitle(news.commentCountDescription, for: .normal)
+        if let avatarUrl = news.user_info?.avatar_url {
+            avatarView.kf.setImage(with: URL(string: avatarUrl))
+        }
+        nameLabel.text = news.user_info?.name
+        concernButton.isSelected = news.user_info?.follow ?? false
+        setAutoHeight(bottomView: moreButton, bottomMargin: 0)
     }
     
+    func shouldBeginPlaying() {
+        shareView.animation(for: true)
+        avatarView.isHidden = true
+        nameLabel.isHidden = true
+        useInfoButton.isHidden = true
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        shareView.animation(for: false)
+        avatarView.isHidden = false
+        nameLabel.isHidden = false
+        useInfoButton.isHidden = false
+    }
 }
 

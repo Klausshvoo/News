@@ -140,7 +140,9 @@ extension XHHomeChannelController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(tableView.contentInset)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.2) {
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
     }
 
 }

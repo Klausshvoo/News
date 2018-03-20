@@ -255,7 +255,7 @@ class XHHomeNewsNormalCell: XHHomeNewsCell {
         titleLabel.text = news.title
         configureHotLabel(news.stick_label)
         sourceLabel.text = news.source
-        commentLabel.text = news.commentCountDescription
+        commentLabel.text = news.commentCountDescription + "评论"
         publishTimeLabel.text = news.publishTime
         dislikeButton.isHidden = news.filter_words == nil
         if news.has_video {

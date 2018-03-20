@@ -42,6 +42,8 @@ class XHHomeNews: NSObject,Decodable {
     
     var video_detail_info: XHVideoDetailInfo?
     
+    var user_info: XHUserInfo?
+    
     private var publish_time: TimeInterval?
     
     var publishTime: String? {
@@ -57,13 +59,13 @@ class XHHomeNews: NSObject,Decodable {
     lazy var commentCountDescription: String = {
         if comment_count > 100000 {
             let int = comment_count / 10000
-            return "\(int)万评论"
+            return "\(int)万"
         }
         if comment_count > 10000 {
             let float = CGFloat(comment_count) / 10000
-            return String(format: "%.1f万评论", float)
+            return String(format: "%.1f万", float)
         }
-        return "\(comment_count)评论"
+        return "\(comment_count)"
     }()
     
     /// 有视频时，当video_style=0时在右侧显示小图middle_image,video_style=2显示大图large_image_list
@@ -76,7 +78,7 @@ struct XHImageModel: Decodable {
     
     var width: CGFloat
     
-    var url: String
+    private var url: String
     
     var path: String {
         if url.hasSuffix(".webp") {
@@ -142,6 +144,22 @@ extension TimeInterval {
         let second = duration % 60
         return String(format: "%02d:%02d", min,second)
     }
+}
+
+class XHUserInfo: NSObject,Decodable {
+    
+    var avatar_url: String = ""
+    
+    var follow: Bool = false
+    
+    var follower_count: Int = 0
+    
+    var name: String = ""
+    
+    var user_id: Int = 0
+    
+    var user_verified: Bool = false
+
 }
 
 
