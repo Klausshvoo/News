@@ -34,3 +34,4 @@ extension Float: XHRectAdaptable{}
 extension CGFloat: XHRectAdaptable{}
 
 extension Double: XHRectAdaptable{}
+
