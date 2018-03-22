@@ -23,7 +23,6 @@
 		0A31665B205F49E700F7EE9A /* XHVideoCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A31665A205F49E600F7EE9A /* XHVideoCoverView.swift */; };
 		0A42EA192062474400DC145C /* XHPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A42EA182062474400DC145C /* XHPickerView.swift */; };
 		0A42EA1B2062575100DC145C /* XHPickerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A42EA1A2062575100DC145C /* XHPickerViewCell.swift */; };
-		0A42EA1D2062580800DC145C /* XHPickerViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A42EA1C2062580800DC145C /* XHPickerViewLayout.swift */; };
 		0A42F10E205CC604000BAA0E /* UIView+ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A42F10D205CC604000BAA0E /* UIView+ViewController.swift */; };
 		0A62507B2056119500BB07FE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A62507A2056119500BB07FE /* AppDelegate.swift */; };
 		0A6250822056119500BB07FE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A6250812056119500BB07FE /* Assets.xcassets */; };
@@ -68,7 +67,6 @@
 		0A31665A205F49E600F7EE9A /* XHVideoCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHVideoCoverView.swift; sourceTree = "<group>"; };
 		0A42EA182062474400DC145C /* XHPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHPickerView.swift; sourceTree = "<group>"; };
 		0A42EA1A2062575100DC145C /* XHPickerViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHPickerViewCell.swift; sourceTree = "<group>"; };
-		0A42EA1C2062580800DC145C /* XHPickerViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHPickerViewLayout.swift; sourceTree = "<group>"; };
 		0A42F10D205CC604000BAA0E /* UIView+ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+ViewController.swift"; sourceTree = "<group>"; };
 		0A6250772056119500BB07FE /* Headline.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Headline.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A62507A2056119500BB07FE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -237,7 +235,6 @@
 				0A31665A205F49E600F7EE9A /* XHVideoCoverView.swift */,
 				0A42EA182062474400DC145C /* XHPickerView.swift */,
 				0A42EA1A2062575100DC145C /* XHPickerViewCell.swift */,
-				0A42EA1C2062580800DC145C /* XHPickerViewLayout.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -450,7 +447,6 @@
 				0A2A9E8C2058CC4D00EC0D51 /* UITableView+AutoHeightCell.swift in Sources */,
 				0A65F479205B9B32004EE091 /* XHViewControllerBottomTransitioning.swift in Sources */,
 				0A62509F20561D6500BB07FE /* UIButton+Position.swift in Sources */,
-				0A42EA1D2062580800DC145C /* XHPickerViewLayout.swift in Sources */,
 				0A0D88A9205777960050A55D /* XHPageCollectionView.swift in Sources */,
 				403BCBE5205BF2D8002BEBAD /* XHHomeChannelCell.swift in Sources */,
 				0A0D88B32057B1900050A55D /* XHHomeChannel.swift in Sources */,
