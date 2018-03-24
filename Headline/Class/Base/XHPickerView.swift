@@ -26,6 +26,8 @@ import UIKit
     
     @objc optional func picker(_ picker: XHPickerView,willDeselectRowAt indexPath: IndexPath)
     
+    @objc optional func picker(_ picker: XHPickerView,didScrollIn component: Int)
+    
 }
 
 class XHPickerView: UIView {
@@ -235,6 +237,24 @@ class XHPickerView: UIView {
         let tableView = tableViews[indexPath.section]
         return tableView.cellForRow(at: IndexPath(row: indexPath.row, section: 0)) as! XHPickerViewCell
     }
+    
+    func cellsIntersectWithIndicatorView(inComponent component: Int) -> [XHPickerViewCell: CGRect] {
+        let tableView = tableViews[component]
+        let cells = tableView.visibleCells
+        var result: [XHPickerViewCell: CGRect] = [:]
+        for cell in cells {
+            let cellRect = cell.convert(cell.bounds, to: self)
+            let intersectiveRect = cellRect.intersection(_indicatorView.frame)
+            if !intersectiveRect.isEmpty {
+                var y: CGFloat = 0
+                if cellRect.minY < _indicatorView.frame.minY {
+                    y = layout.rowHeight - intersectiveRect.height
+                }
+                result[cell as! XHPickerViewCell] = CGRect(origin: CGPoint(x: 0, y: y), size: intersectiveRect.size)
+            }
+        }
+        return result
+    }
 }
 
 extension XHPickerView: UITableViewDataSource {
@@ -276,6 +296,7 @@ extension XHPickerView: UITableViewDelegate {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        delegate?.picker?(self, didScrollIn: scrollView.tag)
         let targetOffset = scrollView.contentOffset.y + scrollView.contentInset.top
         var targetRow = lround(Double(targetOffset / layout.rowHeight))
         if targetRow < 0 {
@@ -292,16 +313,6 @@ extension XHPickerView: UITableViewDelegate {
             self?.delegate?.picker?(self!, willSelectRowAt: IndexPath(row: targetRow, section: scrollView.tag))
             self?.delegate?.picker?(self!, willDeselectRowAt: IndexPath(row: willDeselectedRow, section: scrollView.tag))
         }
-//        let willSelectedIndexPath = IndexPath(row: targetRow, section: 0)
-//        let willSelectedCell = (scrollView as! UITableView).cellForRow(at: willSelectedIndexPath)
-//        UIView.animate(withDuration: 0.25) {
-//            willSelectedCell?.contentView.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
-//        }
-//        let willDeselectedIndexPath = IndexPath(row: willDeselectedRow, section: 0)
-//        let willDeselectedCell = (scrollView as! UITableView).cellForRow(at: willDeselectedIndexPath)
-//        UIView.animate(withDuration: 0.25) {
-//            willDeselectedCell?.contentView.transform = CGAffineTransform.identity
-//        }
         _willDeselectedRows[scrollView.tag] = targetRow
     }
     

@@ -15,6 +15,11 @@ class XHMelonVideoViewController: XHViewController,XHTabBarItemController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+//        let label = XHRenderLabel(frame: CGRect(x: 20, y: 100, width: 100, height: 30))
+//        label.text = "123466"
+//        view.addSubview(label)
+//        label.backgroundColor = UIColor.clear
+//        label.selectedProgress = 0.5
     }
 
     override func didReceiveMemoryWarning() {

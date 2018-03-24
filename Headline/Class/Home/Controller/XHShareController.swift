@@ -36,7 +36,7 @@ class XHShareController: UIViewController {
 //        }
 //        button.theme_backgroundColor = ThemeColorPicker.white
         let layout = XHPickerViewLayout()
-        layout.indicatorStyle = .break
+        layout.indicatorStyle = .highlight
         let picker = XHPickerView(frame: barView.bounds, layout: layout)
         barView.addSubview(picker)
         picker.dataSource = self
@@ -77,7 +77,7 @@ extension XHShareController: XHPickerViewDataSource {
     
     func picker(_ picker: XHPickerView, cellForRowAt indexPath: IndexPath) -> XHPickerViewCell {
         let cell = picker.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.setText("\(indexPath.row)")
+        cell.label.text = "\(indexPath.row)"
         return cell
     }
     
@@ -91,17 +91,24 @@ extension XHShareController: XHPickerViewDataSource {
 extension XHShareController: XHPickerViewDelegate {
     
     func picker(_ picker: XHPickerView, didSelectRowAt indexPath: IndexPath) {
-        print("选中\(indexPath.section)--\(indexPath.row)")
+        
     }
     
-    func picker(_ picker: XHPickerView, willSelectRowAt indexPath: IndexPath) {
-        let cell = picker.cellForRow(at: indexPath)
-        cell.contentView.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
-    }
+//    func picker(_ picker: XHPickerView, willSelectRowAt indexPath: IndexPath) {
+//        let cell = picker.cellForRow(at: indexPath)
+//        cell.contentView.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+//    }
+//
+//    func picker(_ picker: XHPickerView, willDeselectRowAt indexPath: IndexPath) {
+//        let cell = picker.cellForRow(at: indexPath)
+//        cell.contentView.transform = CGAffineTransform.identity
+//    }
     
-    func picker(_ picker: XHPickerView, willDeselectRowAt indexPath: IndexPath) {
-        let cell = picker.cellForRow(at: indexPath)
-        cell.contentView.transform = CGAffineTransform.identity
+    func picker(_ picker: XHPickerView, didScrollIn component: Int) {
+        let cells = picker.cellsIntersectWithIndicatorView(inComponent: component)
+        for (cell,rect) in cells {
+            cell.label.selectedRect = rect
+        }
     }
     
 }
