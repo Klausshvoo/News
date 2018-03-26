@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A03BA142068892C004604B9 /* XHImageViewerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A03BA132068892C004604B9 /* XHImageViewerController.swift */; };
+		0A03BA1720688EB9004604B9 /* XHImageViewerable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A03BA1620688EB9004604B9 /* XHImageViewerable.swift */; };
+		0A03BA192068CA4B004604B9 /* XHImageViewerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A03BA182068CA4B004604B9 /* XHImageViewerCell.swift */; };
+		0A03BA232068CB79004604B9 /* zrx8.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0A03BA1A2068CB78004604B9 /* zrx8.jpg */; };
+		0A03BA242068CB79004604B9 /* zrx9.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0A03BA1B2068CB78004604B9 /* zrx9.jpg */; };
+		0A03BA252068CB79004604B9 /* zrx1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0A03BA1C2068CB78004604B9 /* zrx1.jpg */; };
+		0A03BA262068CB79004604B9 /* zrx4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0A03BA1D2068CB78004604B9 /* zrx4.jpg */; };
+		0A03BA272068CB79004604B9 /* zrx6.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0A03BA1E2068CB78004604B9 /* zrx6.jpg */; };
+		0A03BA282068CB79004604B9 /* zrx3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0A03BA1F2068CB78004604B9 /* zrx3.jpg */; };
+		0A03BA292068CB79004604B9 /* zrx2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0A03BA202068CB78004604B9 /* zrx2.jpg */; };
+		0A03BA2A2068CB79004604B9 /* zrx5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0A03BA212068CB79004604B9 /* zrx5.jpg */; };
+		0A03BA2B2068CB79004604B9 /* zrx7.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0A03BA222068CB79004604B9 /* zrx7.jpg */; };
 		0A0D88A9205777960050A55D /* XHPageCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0D88A8205777960050A55D /* XHPageCollectionView.swift */; };
 		0A0D88AC20579E040050A55D /* XHRefreshGifFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0D88AA20579E040050A55D /* XHRefreshGifFooter.swift */; };
 		0A0D88AD20579E040050A55D /* XHRefreshGifHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0D88AB20579E040050A55D /* XHRefreshGifHeader.swift */; };
@@ -51,6 +63,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A03BA132068892C004604B9 /* XHImageViewerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHImageViewerController.swift; sourceTree = "<group>"; };
+		0A03BA1620688EB9004604B9 /* XHImageViewerable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHImageViewerable.swift; sourceTree = "<group>"; };
+		0A03BA182068CA4B004604B9 /* XHImageViewerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHImageViewerCell.swift; sourceTree = "<group>"; };
+		0A03BA1A2068CB78004604B9 /* zrx8.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = zrx8.jpg; sourceTree = "<group>"; };
+		0A03BA1B2068CB78004604B9 /* zrx9.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = zrx9.jpg; sourceTree = "<group>"; };
+		0A03BA1C2068CB78004604B9 /* zrx1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = zrx1.jpg; sourceTree = "<group>"; };
+		0A03BA1D2068CB78004604B9 /* zrx4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = zrx4.jpg; sourceTree = "<group>"; };
+		0A03BA1E2068CB78004604B9 /* zrx6.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = zrx6.jpg; sourceTree = "<group>"; };
+		0A03BA1F2068CB78004604B9 /* zrx3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = zrx3.jpg; sourceTree = "<group>"; };
+		0A03BA202068CB78004604B9 /* zrx2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = zrx2.jpg; sourceTree = "<group>"; };
+		0A03BA212068CB79004604B9 /* zrx5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = zrx5.jpg; sourceTree = "<group>"; };
+		0A03BA222068CB79004604B9 /* zrx7.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = zrx7.jpg; sourceTree = "<group>"; };
 		0A0D88A8205777960050A55D /* XHPageCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHPageCollectionView.swift; sourceTree = "<group>"; };
 		0A0D88AA20579E040050A55D /* XHRefreshGifFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XHRefreshGifFooter.swift; sourceTree = "<group>"; };
 		0A0D88AB20579E040050A55D /* XHRefreshGifHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XHRefreshGifHeader.swift; sourceTree = "<group>"; };
@@ -110,6 +134,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A03BA1520688E8B004604B9 /* XHImageViewer */ = {
+			isa = PBXGroup;
+			children = (
+				0A03BA132068892C004604B9 /* XHImageViewerController.swift */,
+				0A03BA182068CA4B004604B9 /* XHImageViewerCell.swift */,
+				0A03BA1620688EB9004604B9 /* XHImageViewerable.swift */,
+				0A03BA1C2068CB78004604B9 /* zrx1.jpg */,
+				0A03BA202068CB78004604B9 /* zrx2.jpg */,
+				0A03BA1F2068CB78004604B9 /* zrx3.jpg */,
+				0A03BA1D2068CB78004604B9 /* zrx4.jpg */,
+				0A03BA212068CB79004604B9 /* zrx5.jpg */,
+				0A03BA1E2068CB78004604B9 /* zrx6.jpg */,
+				0A03BA222068CB79004604B9 /* zrx7.jpg */,
+				0A03BA1A2068CB78004604B9 /* zrx8.jpg */,
+				0A03BA1B2068CB78004604B9 /* zrx9.jpg */,
+			);
+			path = XHImageViewer;
+			sourceTree = "<group>";
+		};
 		0A62506E2056119500BB07FE = {
 			isa = PBXGroup;
 			children = (
@@ -235,6 +278,7 @@
 				0A31665A205F49E600F7EE9A /* XHVideoCoverView.swift */,
 				0A42EA182062474400DC145C /* XHPickerView.swift */,
 				0A42EA1A2062575100DC145C /* XHPickerViewCell.swift */,
+				0A03BA1520688E8B004604B9 /* XHImageViewer */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -351,7 +395,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A03BA242068CB79004604B9 /* zrx9.jpg in Resources */,
+				0A03BA262068CB79004604B9 /* zrx4.jpg in Resources */,
+				0A03BA252068CB79004604B9 /* zrx1.jpg in Resources */,
+				0A03BA272068CB79004604B9 /* zrx6.jpg in Resources */,
+				0A03BA292068CB79004604B9 /* zrx2.jpg in Resources */,
 				0A6250852056119500BB07FE /* LaunchScreen.storyboard in Resources */,
+				0A03BA2B2068CB79004604B9 /* zrx7.jpg in Resources */,
+				0A03BA2A2068CB79004604B9 /* zrx5.jpg in Resources */,
+				0A03BA232068CB79004604B9 /* zrx8.jpg in Resources */,
+				0A03BA282068CB79004604B9 /* zrx3.jpg in Resources */,
 				0A6250822056119500BB07FE /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -432,7 +485,9 @@
 				0A6250A32056264300BB07FE /* Theme.swift in Sources */,
 				0A0D88B52057BCE40050A55D /* XHHomeChannelController.swift in Sources */,
 				0A625099205619F600BB07FE /* XHWeiHeadlineViewController.swift in Sources */,
+				0A03BA142068892C004604B9 /* XHImageViewerController.swift in Sources */,
 				0A6250A020561D6500BB07FE /* UIColor+Hex.swift in Sources */,
+				0A03BA192068CA4B004604B9 /* XHImageViewerCell.swift in Sources */,
 				0A65F47B205BA311004EE091 /* XHViewControllerInteractive.swift in Sources */,
 				0A19385E2060AA10006A4858 /* XHHomeVideoShareView.swift in Sources */,
 				0A42F10E205CC604000BAA0E /* UIView+ViewController.swift in Sources */,
@@ -443,6 +498,7 @@
 				0A65F47F205BC273004EE091 /* XHChannelEditViewController.swift in Sources */,
 				0A316659205F464E00F7EE9A /* XHHomeVideoCell.swift in Sources */,
 				0A6250AC2056614700BB07FE /* XHViewControllerAnimatedTransitioning.swift in Sources */,
+				0A03BA1720688EB9004604B9 /* XHImageViewerable.swift in Sources */,
 				0A65F47D205BC242004EE091 /* XHBottomPresentViewController.swift in Sources */,
 				0A2A9E8C2058CC4D00EC0D51 /* UITableView+AutoHeightCell.swift in Sources */,
 				0A65F479205B9B32004EE091 /* XHViewControllerBottomTransitioning.swift in Sources */,

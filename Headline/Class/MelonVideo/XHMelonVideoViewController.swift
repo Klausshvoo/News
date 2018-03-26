@@ -15,11 +15,17 @@ class XHMelonVideoViewController: XHViewController,XHTabBarItemController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-//        let label = XHRenderLabel(frame: CGRect(x: 20, y: 100, width: 100, height: 30))
-//        label.text = "123466"
-//        view.addSubview(label)
-//        label.backgroundColor = UIColor.clear
-//        label.selectedProgress = 0.5
+        let imageView = UIImageView(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
+        imageView.image = UIImage(named: "zrx1.jpg")
+        view.addSubview(imageView)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+        imageView.addGestureRecognizer(tap)
+        imageView.isUserInteractionEnabled = true
+    }
+    
+    @objc func handleTap(_ tap: UITapGestureRecognizer) {
+        let imageViewer = XHImageViewerController(images: ["zrx1.jpg","zrx2.jpg"], with: tap.view as! UIImageView, at: 0)
+        present(imageViewer, animated: true, completion: nil)
     }
 
     override func didReceiveMemoryWarning() {
