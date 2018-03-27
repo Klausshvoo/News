@@ -10,7 +10,7 @@ import UIKit
 
 class XHImageViewerCell: UICollectionViewCell {
     
-    private let scrollView = XHImageViewerScrollView(frame: .zero)
+    let scrollView = XHImageViewerScrollView(frame: .zero)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -22,14 +22,20 @@ class XHImageViewerCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setImageViewerable(source: XHImageViewerable) {
+    func setImageViewerable(source: XHImageViewerObject) {
         scrollView.setImageViewerable(source: source)
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        scrollView.zoomScale = scrollView.minimumZoomScale
+    }
+    
 }
 
 class XHImageViewerScrollView: UIScrollView,UIScrollViewDelegate {
     
-    let imageView: UIImageView = UIImageView()
+    let imageView: XHImageView = XHImageView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -37,11 +43,16 @@ class XHImageViewerScrollView: UIScrollView,UIScrollViewDelegate {
         if #available(iOS 11.0, *) {
             contentInsetAdjustmentBehavior = .never
         }
-        
         imageView.contentMode = .scaleAspectFit
         delegate = self
-        maximumZoomScale = 2.5
+        maximumZoomScale = 2.0
         minimumZoomScale = 1.0
+        showsVerticalScrollIndicator = false
+        showsHorizontalScrollIndicator = false
+        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap))
+        doubleTap.numberOfTapsRequired = 2
+        imageView.addGestureRecognizer(doubleTap)
+        imageView.isUserInteractionEnabled = true
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -54,19 +65,22 @@ class XHImageViewerScrollView: UIScrollView,UIScrollViewDelegate {
         }
     }
     
-    func setImageViewerable(source: XHImageViewerable) {
-        if let source  = source as? String {
-            let image = UIImage(named: source)
-            imageView.image = image
-            let scale = image!.size.width / frame.width
-            let height = image!.size.height/scale
-            imageView.bounds = CGRect(origin: .zero, size: CGSize(width: frame.width, height: height))
-            contentSize = CGSize(width: frame.width, height: height)
-            if height > frame.height {
-                contentInset = .zero
-            } else {
-                contentInset = UIEdgeInsets(top: (frame.height - height) / 2, left: 0, bottom: (frame.height - height) / 2, right: 0)
-            }
+    @objc private func handleDoubleTap() {
+        if zoomScale == minimumZoomScale {
+            zoomScale = maximumZoomScale
+        } else {
+            zoomScale = minimumZoomScale
+        }
+    }
+    
+    func setImageViewerable(source: XHImageViewerObject) {
+        imageView.setImageViewerObject(object: source, width: frame.width)
+        let height = imageView.bounds.height
+        contentSize = CGSize(width: frame.width, height: height)
+        if height > frame.height {
+            contentInset = .zero
+        } else {
+            contentInset = UIEdgeInsets(top: (frame.height - height) / 2, left: 0, bottom: (frame.height - height) / 2, right: 0)
         }
     }
     
@@ -77,17 +91,14 @@ class XHImageViewerScrollView: UIScrollView,UIScrollViewDelegate {
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
         var height = imageView.bounds.height * scrollView.zoomScale
         if height > frame.height {
-            height = 0
+            height = frame.height
         }
         contentInset = UIEdgeInsets(top: (frame.height - height) / 2, left: 0, bottom: (frame.height - height) / 2, right: 0)
-    }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         imageView.center = CGPoint(x: contentSize.width / 2, y: contentSize.height / 2)
     }
+    
 }

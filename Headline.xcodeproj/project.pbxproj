@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A01C10A206A0DF10076A628 /* XHImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A01C109206A0DF10076A628 /* XHImagePickerController.swift */; };
+		0A01C10E206A27D00076A628 /* XHPhotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A01C10D206A27D00076A628 /* XHPhotoCollectionViewController.swift */; };
+		0A01C110206A281E0076A628 /* XHPhotoAlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A01C10F206A281E0076A628 /* XHPhotoAlbumViewController.swift */; };
+		0A01C112206A28510076A628 /* XHPhotoViewerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A01C111206A28510076A628 /* XHPhotoViewerController.swift */; };
+		0A01C114206A28BB0076A628 /* XHCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A01C113206A28BB0076A628 /* XHCameraViewController.swift */; };
 		0A03BA142068892C004604B9 /* XHImageViewerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A03BA132068892C004604B9 /* XHImageViewerController.swift */; };
 		0A03BA1720688EB9004604B9 /* XHImageViewerable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A03BA1620688EB9004604B9 /* XHImageViewerable.swift */; };
 		0A03BA192068CA4B004604B9 /* XHImageViewerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A03BA182068CA4B004604B9 /* XHImageViewerCell.swift */; };
@@ -63,6 +68,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A01C109206A0DF10076A628 /* XHImagePickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHImagePickerController.swift; sourceTree = "<group>"; };
+		0A01C10D206A27D00076A628 /* XHPhotoCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHPhotoCollectionViewController.swift; sourceTree = "<group>"; };
+		0A01C10F206A281E0076A628 /* XHPhotoAlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHPhotoAlbumViewController.swift; sourceTree = "<group>"; };
+		0A01C111206A28510076A628 /* XHPhotoViewerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHPhotoViewerController.swift; sourceTree = "<group>"; };
+		0A01C113206A28BB0076A628 /* XHCameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHCameraViewController.swift; sourceTree = "<group>"; };
 		0A03BA132068892C004604B9 /* XHImageViewerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHImageViewerController.swift; sourceTree = "<group>"; };
 		0A03BA1620688EB9004604B9 /* XHImageViewerable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHImageViewerable.swift; sourceTree = "<group>"; };
 		0A03BA182068CA4B004604B9 /* XHImageViewerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHImageViewerCell.swift; sourceTree = "<group>"; };
@@ -134,6 +144,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A01C107206A0D2F0076A628 /* XHImagePicker */ = {
+			isa = PBXGroup;
+			children = (
+				0A01C109206A0DF10076A628 /* XHImagePickerController.swift */,
+				0A01C10D206A27D00076A628 /* XHPhotoCollectionViewController.swift */,
+				0A01C10F206A281E0076A628 /* XHPhotoAlbumViewController.swift */,
+				0A01C111206A28510076A628 /* XHPhotoViewerController.swift */,
+				0A01C113206A28BB0076A628 /* XHCameraViewController.swift */,
+			);
+			path = XHImagePicker;
+			sourceTree = "<group>";
+		};
+		0A01C108206A0D570076A628 /* XHPickerView */ = {
+			isa = PBXGroup;
+			children = (
+				0A42EA182062474400DC145C /* XHPickerView.swift */,
+				0A42EA1A2062575100DC145C /* XHPickerViewCell.swift */,
+			);
+			path = XHPickerView;
+			sourceTree = "<group>";
+		};
 		0A03BA1520688E8B004604B9 /* XHImageViewer */ = {
 			isa = PBXGroup;
 			children = (
@@ -276,8 +307,8 @@
 				0A65F478205B9B32004EE091 /* XHViewControllerBottomTransitioning.swift */,
 				0A65F47C205BC242004EE091 /* XHBottomPresentViewController.swift */,
 				0A31665A205F49E600F7EE9A /* XHVideoCoverView.swift */,
-				0A42EA182062474400DC145C /* XHPickerView.swift */,
-				0A42EA1A2062575100DC145C /* XHPickerViewCell.swift */,
+				0A01C108206A0D570076A628 /* XHPickerView */,
+				0A01C107206A0D2F0076A628 /* XHImagePicker */,
 				0A03BA1520688E8B004604B9 /* XHImageViewer */,
 			);
 			path = Base;
@@ -497,6 +528,7 @@
 				0A65F470205B7566004EE091 /* Header.swift in Sources */,
 				0A65F47F205BC273004EE091 /* XHChannelEditViewController.swift in Sources */,
 				0A316659205F464E00F7EE9A /* XHHomeVideoCell.swift in Sources */,
+				0A01C10A206A0DF10076A628 /* XHImagePickerController.swift in Sources */,
 				0A6250AC2056614700BB07FE /* XHViewControllerAnimatedTransitioning.swift in Sources */,
 				0A03BA1720688EB9004604B9 /* XHImageViewerable.swift in Sources */,
 				0A65F47D205BC242004EE091 /* XHBottomPresentViewController.swift in Sources */,
@@ -506,6 +538,7 @@
 				0A0D88A9205777960050A55D /* XHPageCollectionView.swift in Sources */,
 				403BCBE5205BF2D8002BEBAD /* XHHomeChannelCell.swift in Sources */,
 				0A0D88B32057B1900050A55D /* XHHomeChannel.swift in Sources */,
+				0A01C10E206A27D00076A628 /* XHPhotoCollectionViewController.swift in Sources */,
 				0A6250A9205649A800BB07FE /* XHViewController.swift in Sources */,
 				0A42EA1B2062575100DC145C /* XHPickerViewCell.swift in Sources */,
 				40DDEF5D20580195000F8037 /* XHHomeNews.swift in Sources */,
@@ -514,11 +547,14 @@
 				0A1938602060D73A006A4858 /* XHShareController.swift in Sources */,
 				0A114203205A644D00E93C98 /* XHNewsDislikeController.swift in Sources */,
 				0A62509B20561A0600BB07FE /* XHSmallVideoViewController.swift in Sources */,
+				0A01C110206A281E0076A628 /* XHPhotoAlbumViewController.swift in Sources */,
 				0A62508D2056165C00BB07FE /* XHTabBarController.swift in Sources */,
+				0A01C112206A28510076A628 /* XHPhotoViewerController.swift in Sources */,
 				0A0D88AF20579F650050A55D /* XHNetwork.swift in Sources */,
 				0A42EA192062474400DC145C /* XHPickerView.swift in Sources */,
 				0A2A9E8E2058E87000EC0D51 /* XHHomeNewsCell.swift in Sources */,
 				0A6250AE205664C700BB07FE /* XHPageTitleView.swift in Sources */,
+				0A01C114206A28BB0076A628 /* XHCameraViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

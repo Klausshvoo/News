@@ -10,27 +10,72 @@ import UIKit
 
 protocol XHImageViewerable {
     
-    func setsource(for imageView: UIImageView)
+    func viewer(in imageView: UIImageView,placeholder: UIImage?)
     
 }
 
-extension String: XHImageViewerable{
+class XHImageViewerObject: NSObject {
     
-    func setsource(for imageView: UIImageView) {
-        
+    var aspectRatio: CGFloat = 0
+    
+    private var placeholder: UIImage?
+    
+    init(imageViewerable: XHImageViewerable,placeholder: UIImage? = nil) {
+        if placeholder != nil {
+            self.placeholder = placeholder
+        } else {
+            if let name = imageViewerable as? UIImageName {
+                self.placeholder = UIImage(named: name)
+            } else if let image = imageViewerable as? UIImage {
+                self.placeholder = image
+            }
+        }
+        if let placeholder = self.placeholder {
+            aspectRatio = placeholder.size.width/placeholder.size.height
+        }
+        self.imageViewerable = imageViewerable
+    }
+    
+    private var imageViewerable: XHImageViewerable
+    
+    func viewer(in imageView: UIImageView) {
+        imageViewerable.viewer(in: imageView, placeholder: placeholder)
     }
 }
 
-extension UIImage: XHImageViewerable{
+typealias UIImageName = String
+
+extension UIImageName: XHImageViewerable {
     
-    func setsource(for imageView: UIImageView) {
+    func viewer(in imageView: UIImageView, placeholder: UIImage?) {
+        imageView.image = UIImage(named: self)
+    }
+}
+
+extension UIImage: XHImageViewerable {
+    
+    func viewer(in imageView: UIImageView, placeholder: UIImage?) {
         imageView.image = self
     }
+    
 }
 
-extension URL: XHImageViewerable{
+extension URL: XHImageViewerable {
     
-    func setsource(for imageView: UIImageView) {
-        
+    func viewer(in imageView: UIImageView, placeholder: UIImage?) {
+        imageView.kf.setImage(with: self, placeholder: placeholder)
     }
+    
 }
+
+
+class XHImageView: UIImageView {
+    
+    func setImageViewerObject(object: XHImageViewerObject,width: CGFloat) {
+        object.viewer(in: self)
+        let height = width/object.aspectRatio
+        bounds = CGRect(x: 0, y: 0, width: width, height: height)
+    }
+    
+}
+

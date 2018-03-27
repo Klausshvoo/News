@@ -10,7 +10,7 @@ import UIKit
 
 class XHImageViewerController: UIViewController {
     
-    private var images: [XHImageViewerable]
+    private var images: [XHImageViewerObject]
     
     private var presentView: UIImageView
     
@@ -21,14 +21,12 @@ class XHImageViewerController: UIViewController {
         return orignalIndex != selectedIndex
     }
     
-    fileprivate lazy var tempView: UIImageView = {
-       let temp = UIImageView()
+    fileprivate lazy var tempView: XHImageView = {
+       let temp = XHImageView()
         temp.isHidden = true
         temp.contentMode = .scaleAspectFit
-        temp.image = presentView.image
+        temp.setImageViewerObject(object: images[orignalIndex], width: view.bounds.width)
         temp.center = view.center
-        let scale = presentView.bounds.width / view.bounds.width
-        temp.bounds = CGRect(x: 0, y: 0, width: view.bounds.width, height: presentView.bounds.height / scale)
         return temp
     }()
     
@@ -54,23 +52,28 @@ class XHImageViewerController: UIViewController {
         view.addSubview(tempView)
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
         view.addGestureRecognizer(tap)
+        tap.delegate = self
     }
     
     @objc private func handleTap(_ tap: UITapGestureRecognizer) {
         dismiss(animated: true, completion: nil)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        tempView.isHidden = true
-        collectionView.isHidden = false
+    override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+        let currentItem = Int(collectionView.contentOffset.x / view.bounds.width)
+        let cell = collectionView.cellForItem(at: IndexPath(item: currentItem, section: 0)) as! XHImageViewerCell
+        let imageView = cell.scrollView.imageView
+        tempView.image = imageView.image
+        tempView.frame = imageView.convert(imageView.bounds, to: tempView.window)
+        tempView.isHidden = false
+        collectionView.isHidden = true
+        super.dismiss(animated: flag, completion: completion)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        collectionView.isHidden = true
-        tempView.image = UIImage(named: "zrx2.jpg")
-        tempView.isHidden = false
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        collectionView.isHidden = false
+        tempView.isHidden = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -78,7 +81,7 @@ class XHImageViewerController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    init(images: [XHImageViewerable],with target: UIImageView,at index: Int) {
+    init(images: [XHImageViewerObject],with target: UIImageView,at index: Int) {
         self.images = images
         self.presentView = target
         self.orignalIndex = index
@@ -89,6 +92,14 @@ class XHImageViewerController: UIViewController {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+}
+
+extension XHImageViewerController: UIGestureRecognizerDelegate {
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
     
 }
@@ -191,7 +202,6 @@ fileprivate class XHImageViewerControllerTransition: XHViewControllerAnimatedTra
         }
     }
     
-    
     private func snapViewFrom(view: UIView) -> UIView {
         let snpaView = UIView()
         snpaView.frame = view.frame
@@ -200,4 +210,8 @@ fileprivate class XHImageViewerControllerTransition: XHViewControllerAnimatedTra
         }
         return snpaView
     }
+    
 }
+
+
+

@@ -24,8 +24,15 @@ class XHMelonVideoViewController: XHViewController,XHTabBarItemController {
     }
     
     @objc func handleTap(_ tap: UITapGestureRecognizer) {
-        let imageViewer = XHImageViewerController(images: ["zrx1.jpg","zrx2.jpg"], with: tap.view as! UIImageView, at: 0)
-        present(imageViewer, animated: true, completion: nil)
+//        let imageNames = ["zrx1.jpg","zrx2.jpg","zrx3.jpg","zrx4.jpg","zrx5.jpg"]
+//        var objects = [XHImageViewerObject]()
+//        for imageName in imageNames {
+//            let object = XHImageViewerObject(imageViewerable: imageName)
+//            objects.append(object)
+//        }
+//        let imageViewer = XHImageViewerController(images: objects, with: tap.view as! UIImageView, at: 0)
+        let imagePicker = XHImagePickerController(sourceType: .camera)
+        present(imagePicker, animated: true, completion: nil)
     }
 
     override func didReceiveMemoryWarning() {
