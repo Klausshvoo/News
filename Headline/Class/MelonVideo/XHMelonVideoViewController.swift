@@ -31,7 +31,7 @@ class XHMelonVideoViewController: XHViewController,XHTabBarItemController {
 //            objects.append(object)
 //        }
 //        let imageViewer = XHImageViewerController(images: objects, with: tap.view as! UIImageView, at: 0)
-        let imagePicker = XHImagePickerController(sourceType: .camera)
+        let imagePicker = XHImagePickerController(sourceType: .photoLibrary)
         present(imagePicker, animated: true, completion: nil)
     }
 

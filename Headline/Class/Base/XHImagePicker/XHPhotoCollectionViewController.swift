@@ -14,6 +14,8 @@ class XHPhotoCollectionViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
         print("456")
+        let nav = navigationController as! XHImagePickerController
+        nav.photoManager.fetchAllPhotos()
     }
 
     override func didReceiveMemoryWarning() {
@@ -21,4 +23,6 @@ class XHPhotoCollectionViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    // 取出所有相机胶卷资源
+    
 }

@@ -23,10 +23,12 @@ class XHPhotoAlbumViewController: UIViewController {
             PHPhotoLibrary.requestAuthorization({ [weak self](status) in
                 self?.handleAuthorizationStatus(status)
             })
-        case .authorized://进行UI创建
+        case .authorized:
             navigationController?.pushViewController(XHPhotoCollectionViewController(), animated: false)
         default:
-            configureForDenied()
+            DispatchQueue.main.async {[weak self] in
+                self?.configureForDenied()
+            }
         }
     }
     

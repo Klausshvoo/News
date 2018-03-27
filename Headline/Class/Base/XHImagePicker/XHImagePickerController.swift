@@ -35,6 +35,11 @@ class XHImagePickerController: UINavigationController {
     
     private(set) var sourceType: XHImagePickerControllerSourceType = .photoLibrary
     
+    lazy var photoManager: XHPhotoManager = {
+       let temp = XHPhotoManager()
+        return temp
+    }()
+    
     init(sourceType: XHImagePickerControllerSourceType) {
         self.sourceType = sourceType
         let item = UIBarButtonItem.appearance(whenContainedInInstancesOf: [XHImagePickerController.self])
@@ -70,6 +75,7 @@ class XHImagePickerController: UINavigationController {
     }
     
     @objc private func dismissSelf() {
+        _delegate?.imagePickerControllerDidCancel?(self)
         dismiss(animated: true, completion: nil)
     }
     
