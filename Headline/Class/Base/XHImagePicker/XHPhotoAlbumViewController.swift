@@ -15,7 +15,16 @@ class XHPhotoAlbumViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
         handleAuthorizationStatus(PHPhotoLibrary.authorizationStatus())
+        navigationController?.delegate = self
     }
+    
+    private var albums: [XHPhotoAlbum]?
+    
+    private lazy var tableView: UITableView = {
+        let temp = UITableView(frame: UIScreen.main.bounds, style: .plain)
+        temp.dataSource = self
+        return temp
+    }()
     
     private func handleAuthorizationStatus(_ status: PHAuthorizationStatus) {
         switch status {
@@ -24,7 +33,11 @@ class XHPhotoAlbumViewController: UIViewController {
                 self?.handleAuthorizationStatus(status)
             })
         case .authorized:
-            navigationController?.pushViewController(XHPhotoCollectionViewController(), animated: false)
+            DispatchQueue.main.async {[weak self] in
+                let photoCollectionController = XHPhotoCollectionViewController()
+                photoCollectionController.photoAblum = XHPhotoAlbum.userLibrary
+                self?.navigationController?.pushViewController(photoCollectionController, animated: false)
+            }
         default:
             DispatchQueue.main.async {[weak self] in
                 self?.configureForDenied()
@@ -49,4 +62,25 @@ class XHPhotoAlbumViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+}
+
+extension XHPhotoAlbumViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return albums?.count ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        return cell
+    }
+    
+}
+
+extension XHPhotoAlbumViewController: UINavigationControllerDelegate {
+    
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        
+    }
+    
 }

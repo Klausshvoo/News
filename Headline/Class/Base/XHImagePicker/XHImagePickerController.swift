@@ -35,11 +35,6 @@ class XHImagePickerController: UINavigationController {
     
     private(set) var sourceType: XHImagePickerControllerSourceType = .photoLibrary
     
-    lazy var photoManager: XHPhotoManager = {
-       let temp = XHPhotoManager()
-        return temp
-    }()
-    
     init(sourceType: XHImagePickerControllerSourceType) {
         self.sourceType = sourceType
         let item = UIBarButtonItem.appearance(whenContainedInInstancesOf: [XHImagePickerController.self])
