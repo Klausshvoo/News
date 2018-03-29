@@ -8,32 +8,33 @@
 
 import UIKit
 
-public enum XHImagePickerControllerSourceType : Int {
+enum XHImagePickerControllerSourceType {
     
-    case photoLibrary
-    
-    case camera
+    case photoLibrary(XHPhotoViewerType),camera
 
+}
+
+enum XHPhotoViewerType {
+    
+    case mutable,single
+    
 }
 
 @objc protocol XHImagePickerControllerDelegate: NSObjectProtocol {
     
-    @objc optional func imagePickerController(_ picker: XHImagePickerController, didFinishPickingMediaWithInfo info: [String : Any])
+    func imagePickerController(_ picker: XHImagePickerController, didFinishPickingPhotos photos: [XHPhoto])
     
-    @objc optional func imagePickerControllerDidCancel(_ picker: XHImagePickerController)
+    func imagePickerControllerDidCancel(_ picker: XHImagePickerController)
     
 }
 
 class XHImagePickerController: UINavigationController {
     
-    private weak var _delegate: XHImagePickerControllerDelegate? {
-        if let temp = delegate,temp.conforms(to: XHImagePickerControllerDelegate.self) {
-            return temp as? XHImagePickerControllerDelegate
-        }
-        return nil
-    }
+    weak var _delegate: XHImagePickerControllerDelegate?
     
-    private(set) var sourceType: XHImagePickerControllerSourceType = .photoLibrary
+    private(set) var sourceType: XHImagePickerControllerSourceType
+    
+    internal(set) var viewerType: XHPhotoViewerType?
     
     init(sourceType: XHImagePickerControllerSourceType) {
         self.sourceType = sourceType
@@ -42,7 +43,7 @@ class XHImagePickerController: UINavigationController {
         super.init(nibName: nil, bundle: nil)
         navigationBar.titleTextAttributes = [.font: UIFont.systemFont(ofSize: 17),.foregroundColor: UIColor.white]
         navigationBar.barStyle = .black
-        navigationBar.barTintColor = UIColor.black
+        navigationBar.barTintColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.7)
         navigationBar.tintColor = UIColor.white
         UIApplication.shared.statusBarStyle = .lightContent
     }
@@ -55,7 +56,8 @@ class XHImagePickerController: UINavigationController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
         switch sourceType {
-        case .photoLibrary:
+        case .photoLibrary(let viewerType):
+            self.viewerType = viewerType
             pushViewController(XHPhotoAlbumViewController(), animated: false)
         default:
             pushViewController(XHCameraViewController(), animated: false)
@@ -70,8 +72,7 @@ class XHImagePickerController: UINavigationController {
     }
     
     @objc private func dismissSelf() {
-        _delegate?.imagePickerControllerDidCancel?(self)
-        dismiss(animated: true, completion: nil)
+        _delegate?.imagePickerControllerDidCancel(self)
     }
     
     override func didReceiveMemoryWarning() {

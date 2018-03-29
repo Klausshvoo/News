@@ -15,7 +15,9 @@ class XHPhotoAlbum: NSObject {
     
     lazy var photos: [XHPhoto] = {
         var temp = [XHPhoto]()
-        let result = PHAsset.fetchAssets(in: collection, options: nil)
+        let options = PHFetchOptions()
+        options.sortDescriptors = [NSSortDescriptor.init(key: "creationDate", ascending: true)]
+        let result = PHAsset.fetchAssets(in: collection, options: options)
         result.enumerateObjects({ (asset, _, _) in
             temp.append(XHPhoto(asset: asset))
         })
@@ -42,12 +44,15 @@ class XHPhotoAlbum: NSObject {
         var ablums = [XHPhotoAlbum]()
         let options = PHFetchOptions()
         options.includeHiddenAssets = false
+        
         let smartAblums = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .any, options: options)
         smartAblums.enumerateObjects { (colletion, _, _) in
-            if colletion.assetCollectionSubtype == .smartAlbumUserLibrary {
-                ablums.insert(XHPhotoAlbum(collection: colletion), at: 0)
-            } else {
-                ablums.append(XHPhotoAlbum(collection: colletion))
+            if colletion.assetCollectionSubtype != .smartAlbumAllHidden {
+                if colletion.assetCollectionSubtype == .smartAlbumUserLibrary {
+                    ablums.insert(XHPhotoAlbum(collection: colletion), at: 0)
+                } else {
+                    ablums.append(XHPhotoAlbum(collection: colletion))
+                }
             }
         }
         let userAblums = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: nil)
@@ -63,11 +68,17 @@ class XHPhotoAlbum: NSObject {
         return XHPhotoAlbum(collection: smartAblum)
     }
     
+    var coverPhoto: XHPhoto? {
+        return photos.last
+    }
+    
 }
 
 class XHPhoto: NSObject {
     
     private var asset: PHAsset
+    
+    var isSelected: Bool = false
     
     init(asset: PHAsset) {
         self.asset = asset
@@ -76,39 +87,60 @@ class XHPhoto: NSObject {
     
     private lazy var results: [XHPhotoResult] = []
     
-    func fetchPhoto(in size: CGSize,completion: @escaping (UIImage?) -> Void) {
+    /// 不论该方法是否在主线程调用，回调都会在主线程
+    func fetchPhoto(in size: CGSize,completion: @escaping (UIImage?) -> Void) -> Int {
         let results = self.results.filter({ $0.size == size })
         if let result = results.first {
-            result.closure = completion
-            result.closure?(result.image)
+            result.closures.append(completion)
+            DispatchQueue.main.async {
+                completion(result.image)
+            }
+            return result.closures.count - 1
         } else {
             let result = XHPhotoResult()
             result.size = size
-            result.closure = completion
+            result.closures.append(completion)
             let options = PHImageRequestOptions()
-            options.deliveryMode = .highQualityFormat
+            options.deliveryMode = .opportunistic
             options.resizeMode = .exact
             self.results.append(result)
             PHImageManager.default().requestImage(for: asset, targetSize: size, contentMode: .aspectFill, options: options) { (image, _) in
                 result.image = image
-                result.closure?(image)
+                for closure in result.closures {
+                    DispatchQueue.main.async {
+                        closure?(image)
+                    }
+                }
             }
+            return result.closures.count - 1
         }
     }
     
-    func closeClosure(for size: CGSize) {
+    func closeClosure(for size: CGSize,at index: Int) {
         let results = self.results.filter({ $0.size == size })
         if let result = results.first {
-            result.closure = nil
+            result.closures[index] = nil
         }
     }
+    
+    lazy var originalSize: CGSize = {
+        let scale = CGFloat(asset.pixelWidth) / UIScreen.main.bounds.width
+        let width = Int(UIScreen.main.bounds.width * UIScreen.main.scale)
+        let height = Int(CGFloat(asset.pixelHeight) / scale * UIScreen.main.scale)
+        return CGSize(width: width, height: height)
+    }()
+    
+    func fetchOriginalPhoto(completion: @escaping (UIImage?) -> Void) -> Int {
+        return fetchPhoto(in: originalSize, completion: completion)
+    }
+    
 }
 
 private class XHPhotoResult: NSObject {
     
     var size: CGSize = .zero
     
-    var closure: ((UIImage?) -> Void)?
+    var closures: [((UIImage?) -> Void)?] = []
     
     var image: UIImage?
     
