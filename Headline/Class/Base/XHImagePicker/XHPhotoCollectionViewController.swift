@@ -80,8 +80,16 @@ class XHPhotoCollectionViewController: UIViewController {
     
     @objc private func shouldSendSelectedImages() {
         if let navigtion = navigationController as? XHImagePickerController {
-            navigtion._delegate?.imagePickerController(navigtion, didFinishPickingPhotos: selectedPhotos)
+            navigtion._delegate?.imagePickerController?(navigtion, didFinishPickingPhotos: selectedPhotos)
         }
+    }
+    
+    internal func reloadItemSelectState(at index: Int) {
+        let indexPath = IndexPath(item: index, section: 0)
+        collectionView.performBatchUpdates({[weak self] in
+            self?.collectionView.reloadItems(at: [indexPath])
+        }, completion: nil)
+        mutableBar.setSelectedCount(selectedPhotos.count)
     }
 
     override func didReceiveMemoryWarning() {

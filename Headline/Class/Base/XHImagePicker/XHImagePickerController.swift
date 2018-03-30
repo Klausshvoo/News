@@ -22,9 +22,13 @@ enum XHPhotoViewerType {
 
 @objc protocol XHImagePickerControllerDelegate: NSObjectProtocol {
     
-    func imagePickerController(_ picker: XHImagePickerController, didFinishPickingPhotos photos: [XHPhoto])
+    @objc optional func imagePickerController(_ picker: XHImagePickerController, didFinishPickingPhotos photos: [XHPhoto])
     
     func imagePickerControllerDidCancel(_ picker: XHImagePickerController)
+    
+    @objc optional func imagePickerController(_ picker: XHImagePickerController, didFinishPickingPhoto photo: XHPhoto,editImage: UIImage?)
+    
+    @objc optional func imagePickerController(_ picker: XHImagePickerController, didFinishTakingPhoto data: Data?)
     
 }
 
@@ -43,7 +47,7 @@ class XHImagePickerController: UINavigationController {
         super.init(nibName: nil, bundle: nil)
         navigationBar.titleTextAttributes = [.font: UIFont.systemFont(ofSize: 17),.foregroundColor: UIColor.white]
         navigationBar.barStyle = .black
-        navigationBar.barTintColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.7)
+        navigationBar.barTintColor = UIColor.black
         navigationBar.tintColor = UIColor.white
         UIApplication.shared.statusBarStyle = .lightContent
     }

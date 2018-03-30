@@ -13,6 +13,9 @@ class XHMelonVideoViewController: XHViewController,XHTabBarItemController {
     var tabBarItemImageName: String {
         return "video"
     }
+    
+    var editImageView = UIImageView(frame: CGRect(x: 100, y: 400, width: 100, height: 100))
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let imageView = UIImageView(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
@@ -26,6 +29,7 @@ class XHMelonVideoViewController: XHViewController,XHTabBarItemController {
         button.frame = CGRect(x: 100, y: 300, width: 100, height: 50)
         view.addSubview(button)
         button.addTarget(self, action: #selector(selectPhoto), for: .touchUpInside)
+        view.addSubview(editImageView)
     }
     
     @objc func handleTap(_ tap: UITapGestureRecognizer) {
@@ -78,4 +82,13 @@ extension XHMelonVideoViewController: XHImagePickerControllerDelegate {
         picker.dismiss(animated: true, completion: nil)
     }
     
+    func imagePickerController(_ picker: XHImagePickerController, didFinishPickingPhoto photo: XHPhoto, editImage: UIImage?) {
+        editImageView.image = editImage
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: XHImagePickerController, didFinishTakingPhoto data: Data?) {
+        editImageView.image = UIImage(data: data!)
+        picker.dismiss(animated: true, completion: nil)
+    }
 }
