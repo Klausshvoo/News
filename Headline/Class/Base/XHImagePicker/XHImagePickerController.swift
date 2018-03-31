@@ -79,6 +79,14 @@ class XHImagePickerController: UINavigationController {
         _delegate?.imagePickerControllerDidCancel(self)
     }
     
+    override var shouldAutorotate: Bool {
+        return false
+    }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .portrait
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
