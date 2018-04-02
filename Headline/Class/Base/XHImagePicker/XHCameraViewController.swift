@@ -65,20 +65,51 @@ class XHCameraViewController: UIViewController {
             print("相机初始化失败")
         }
         
-//        if !camera.createCamera() {
-//            print("相机存在问题")
-//        }
         let button = UIButton(type: .custom)
         button.backgroundColor = UIColor.red
         view.addSubview(button)
         button.frame = CGRect(x: 140, y: 500, width: 40, height: 40)
         button.addTarget(self, action: #selector(takePhoto), for: .touchUpInside)
+        let flashButton = UIButton(type: .custom)
+        flashButton.setTitle("自动", for: .normal)
+        flashButton.setTitleColor(UIColor.blue, for: .normal)
+        view.addSubview(flashButton)
+        flashButton.frame = CGRect(x: 20, y: 64, width: 40, height: 40)
+        flashButton.addTarget(self, action: #selector(handleFlash(_:)), for: .touchUpInside)
+        let positionButton = UIButton(type: .custom)
+        positionButton.setTitle("切换", for: .normal)
+        positionButton.setTitleColor(UIColor.blue, for: .normal)
+        view.addSubview(positionButton)
+        positionButton.frame = CGRect(x: UIScreen.main.bounds.width - 60, y: 64, width: 40, height: 40)
+        positionButton.addTarget(self, action: #selector(changeCamera), for: .touchUpInside)
     }
     
     @objc private func takePhoto() {
         camera?.takePhoto { [weak self](data) in
             if let navigation = self?.navigationController as? XHImagePickerController {
                 navigation._delegate?.imagePickerController?(navigation, didFinishTakingPhoto: data)
+            }
+        }
+    }
+    
+    @objc private func handleFlash(_ sender: UIButton) {
+        let arr = ["关","开","自动"]
+        let index = (arr.index(of: sender.currentTitle!)! + 1) % 3
+        let mode = AVCaptureDevice.FlashMode(rawValue: index)!
+        if let camera = self.camera,camera.configureFlash(mode) {
+            sender.setTitle(arr[index], for: .normal)
+        }
+    }
+    
+    @objc private func changeCamera() {
+        if let position = camera?.position {
+            switch position {
+            case .unspecified:
+                break
+            case .back:
+                camera?.changeCamera(to: .front)
+            case .front:
+                camera?.changeCamera(to: .back)
             }
         }
     }
@@ -91,11 +122,6 @@ class XHCameraViewController: UIViewController {
 }
 
 class XHCameraView: UIView {
-//    private lazy var videoOutput: AVCaptureVideoDataOutput = {
-//        let temp = AVCaptureVideoDataOutput()
-//
-//        return temp
-//    }()
     
     enum XHCameraError: Error {
         case position,input
@@ -121,6 +147,32 @@ class XHCameraView: UIView {
         return temp
     }()
     
+    private lazy var focusView: UIView = {
+       let temp = UIView()
+        temp.bounds = CGRect(x: 0, y: 0, width: 80, height: 80)
+        temp.layer.borderWidth = 1.0
+        temp.layer.borderColor = UIColor.green.cgColor
+        temp.isHidden = true
+        return temp
+    }()
+    
+    var position: AVCaptureDevice.Position {
+        return device?.position ?? .unspecified
+    }
+    
+    @discardableResult public func changeCamera(to positon: AVCaptureDevice.Position) -> Bool {
+        guard self.position != positon else { return true }
+        session.stopRunning()
+        session.beginConfiguration()
+        if let device = changeOverCamera(to: positon) {
+            try! configureCamera(device)
+            self.device = device
+            return true
+        }
+        session.commitConfiguration()
+        return false
+    }
+    
     convenience init(position: AVCaptureDevice.Position) throws {
         self.init(frame: .zero)
         session.beginConfiguration()
@@ -135,17 +187,25 @@ class XHCameraView: UIView {
         } else {
             throw XHCameraError.position
         }
+        addSubview(focusView)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+        addGestureRecognizer(tap)
     }
     
     private func configureCamera(_ device: AVCaptureDevice) throws {
         if self.input != nil {
             session.removeInput(self.input)
+            session.removeOutput(imageOutput)
         }
         let input = try AVCaptureDeviceInput(device: device)
         if session.canAddInput(input) {
             session.addInput(input)
+            self.input = input
         } else {
             throw XHCameraError.input
+        }
+        if session.canAddOutput(imageOutput) {
+            session.addOutput(imageOutput)
         }
         session.commitConfiguration()
         session.startRunning()
@@ -198,13 +258,6 @@ class XHCameraView: UIView {
     }
 
     func takePhoto(completion:@escaping (Data?) -> Void) {
-        session.beginConfiguration()
-        guard session.canAddOutput(imageOutput) else {
-            completion(nil)
-            return
-        }
-        session.addOutput(imageOutput)
-        session.commitConfiguration()
         if let connection = imageOutput.connection(with: .video) {
             connection.videoScaleAndCropFactor = 1.0
             imageOutput.captureStillImageAsynchronously(from: connection, completionHandler: { (buffer, error) in
@@ -214,6 +267,28 @@ class XHCameraView: UIView {
                 } else {
                     completion(nil)
                 }
+            })
+        }
+    }
+    
+    @objc private func handleTap(_ tap: UITapGestureRecognizer) {
+        let point = tap.location(in: self)
+        focusAnimation(point)
+    }
+    
+    private func focusAnimation(_ point: CGPoint) {
+        if let device = self.device {
+            focusAtPoint(point, for: device)
+            focusView.center = point
+            focusView.isHidden = false
+            UIView.animate(withDuration: 0.3, animations: {[weak self] in
+                self?.focusView.transform = CGAffineTransform(scaleX: 1.25, y: 1.25)
+                }, completion: { [weak self](_) in
+                    UIView.animate(withDuration: 0.3, animations: {
+                        self?.focusView.transform = .identity
+                    }, completion: { (_) in
+                        self?.focusView.isHidden = true
+                    })
             })
         }
     }

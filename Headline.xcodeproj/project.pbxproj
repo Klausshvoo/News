@@ -61,6 +61,8 @@
 		0A65F47B205BA311004EE091 /* XHViewControllerInteractive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A65F47A205BA311004EE091 /* XHViewControllerInteractive.swift */; };
 		0A65F47D205BC242004EE091 /* XHBottomPresentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A65F47C205BC242004EE091 /* XHBottomPresentViewController.swift */; };
 		0A65F47F205BC273004EE091 /* XHChannelEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A65F47E205BC273004EE091 /* XHChannelEditViewController.swift */; };
+		0A72EB352071D36E0022169A /* XHFixedSpaceLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A72EB342071D36E0022169A /* XHFixedSpaceLayout.swift */; };
+		0A72EB372071D88D0022169A /* XHSearchPromptsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A72EB362071D88D0022169A /* XHSearchPromptsController.swift */; };
 		403BCBE5205BF2D8002BEBAD /* XHHomeChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403BCBE4205BF2D8002BEBAD /* XHHomeChannelCell.swift */; };
 		40671CBA206A79B00018EEAE /* XHPhotoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40671CB9206A79B00018EEAE /* XHPhotoManager.swift */; };
 		40DDEF5D20580195000F8037 /* XHHomeNews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DDEF5C20580195000F8037 /* XHHomeNews.swift */; };
@@ -125,6 +127,8 @@
 		0A65F47A205BA311004EE091 /* XHViewControllerInteractive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHViewControllerInteractive.swift; sourceTree = "<group>"; };
 		0A65F47C205BC242004EE091 /* XHBottomPresentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHBottomPresentViewController.swift; sourceTree = "<group>"; };
 		0A65F47E205BC273004EE091 /* XHChannelEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHChannelEditViewController.swift; sourceTree = "<group>"; };
+		0A72EB342071D36E0022169A /* XHFixedSpaceLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHFixedSpaceLayout.swift; sourceTree = "<group>"; };
+		0A72EB362071D88D0022169A /* XHSearchPromptsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHSearchPromptsController.swift; sourceTree = "<group>"; };
 		403BCBE4205BF2D8002BEBAD /* XHHomeChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHHomeChannelCell.swift; sourceTree = "<group>"; };
 		40671CB9206A79B00018EEAE /* XHPhotoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHPhotoManager.swift; sourceTree = "<group>"; };
 		40671CBB206A87A60018EEAE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
@@ -255,6 +259,7 @@
 			isa = PBXGroup;
 			children = (
 				0A625096205619E400BB07FE /* XHMelonVideoViewController.swift */,
+				0A72EB362071D88D0022169A /* XHSearchPromptsController.swift */,
 			);
 			path = MelonVideo;
 			sourceTree = "<group>";
@@ -311,6 +316,7 @@
 				0A65F478205B9B32004EE091 /* XHViewControllerBottomTransitioning.swift */,
 				0A65F47C205BC242004EE091 /* XHBottomPresentViewController.swift */,
 				0A31665A205F49E600F7EE9A /* XHVideoCoverView.swift */,
+				0A72EB332071D2C30022169A /* XHSearchCollectionView */,
 				0A01C108206A0D570076A628 /* XHPickerView */,
 				0A01C107206A0D2F0076A628 /* XHImagePicker */,
 				0A03BA1520688E8B004604B9 /* XHImageViewer */,
@@ -349,6 +355,14 @@
 				40DDEF5E20580294000F8037 /* XHHomeNewsResponse.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		0A72EB332071D2C30022169A /* XHSearchCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				0A72EB342071D36E0022169A /* XHFixedSpaceLayout.swift */,
+			);
+			path = XHSearchCollectionView;
 			sourceTree = "<group>";
 		};
 		1BAC41E117638EDCFC5F3B76 /* Pods */ = {
@@ -558,6 +572,8 @@
 				0A0D88AF20579F650050A55D /* XHNetwork.swift in Sources */,
 				0A42EA192062474400DC145C /* XHPickerView.swift in Sources */,
 				0A2A9E8E2058E87000EC0D51 /* XHHomeNewsCell.swift in Sources */,
+				0A72EB372071D88D0022169A /* XHSearchPromptsController.swift in Sources */,
+				0A72EB352071D36E0022169A /* XHFixedSpaceLayout.swift in Sources */,
 				0A6250AE205664C700BB07FE /* XHPageTitleView.swift in Sources */,
 				0A01C114206A28BB0076A628 /* XHCameraViewController.swift in Sources */,
 			);

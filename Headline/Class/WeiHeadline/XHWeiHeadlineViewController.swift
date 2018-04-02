@@ -16,6 +16,7 @@ class XHWeiHeadlineViewController: XHViewController,XHTabBarItemController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
     }
 
     override func didReceiveMemoryWarning() {

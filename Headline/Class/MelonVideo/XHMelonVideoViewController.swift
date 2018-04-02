@@ -30,6 +30,12 @@ class XHMelonVideoViewController: XHViewController,XHTabBarItemController {
         view.addSubview(button)
         button.addTarget(self, action: #selector(selectPhoto), for: .touchUpInside)
         view.addSubview(editImageView)
+        let searchButton = UIButton(type: .system)
+        searchButton.setTitle("搜索", for: .normal)
+        searchButton.frame = CGRect(x: 100, y: 360, width: 100, height: 50)
+        view.addSubview(searchButton)
+        searchButton.addTarget(self, action: #selector(searchSomething), for: .touchUpInside)
+        view.addSubview(editImageView)
     }
     
     @objc func handleTap(_ tap: UITapGestureRecognizer) {
@@ -63,6 +69,11 @@ class XHMelonVideoViewController: XHViewController,XHTabBarItemController {
         let imagePicker = XHImagePickerController(sourceType: sourceType)
         imagePicker._delegate = self
         present(imagePicker, animated: true, completion: nil)
+    }
+    
+    @objc private func searchSomething() {
+        let searchController = XHSearchPromptsController()
+        present(searchController, animated: true, completion: nil)
     }
 
     override func didReceiveMemoryWarning() {
