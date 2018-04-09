@@ -19,10 +19,10 @@ class XHCameraViewController: UIViewController {
 
     private func handleAuthorizationStatus(_ status: AVAuthorizationStatus) {
         switch status {
-        case .notDetermined:// 开启定时器，检测授权状态改变情况
+        case .notDetermined:// 检测授权状态改变情况
             AVCaptureDevice.requestAccess(for: .video, completionHandler: { [weak self](isAuth) in
                 self?.handleAuthorizationStatus(isAuth ? .authorized : .denied)
-            })
+            }) 
         case .authorized://进行UI创建
             DispatchQueue.main.async {[weak self] in
                 self?.configureCamera()

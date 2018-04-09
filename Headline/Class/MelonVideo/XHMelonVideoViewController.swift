@@ -55,18 +55,19 @@ class XHMelonVideoViewController: XHViewController,XHTabBarItemController {
             self?.selectedPhoto(with: .camera)
         }))
         sheet.addAction(UIAlertAction(title: "选多张照片", style: .default, handler: { [weak self](_) in
-            self?.selectedPhoto(with: .photoLibrary(.mutable))
+            self?.selectedPhoto(with: .photoLibrary, viewerType: .mutable)
         }))
         sheet.addAction(UIAlertAction(title: "选单张照片", style: .default, handler: { [weak self](_) in
-            self?.selectedPhoto(with: .photoLibrary(.single))
+            self?.selectedPhoto(with: .photoLibrary)
         }))
         sheet.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
         present(sheet, animated: true, completion: nil)
         
     }
     
-    private func selectedPhoto(with sourceType: XHImagePickerControllerSourceType) {
-        let imagePicker = XHImagePickerController(sourceType: sourceType)
+    private func selectedPhoto(with sourceType: XHImagePickerControllerSourceType,viewerType: XHPhotoViewerType = .single) {
+        let imagePicker = XHImagePickerController(sourceType: sourceType, for: viewerType)
+        imagePicker.maxSelectedCount = 10
         imagePicker._delegate = self
         present(imagePicker, animated: true, completion: nil)
     }

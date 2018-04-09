@@ -10,7 +10,7 @@ import UIKit
 
 enum XHImagePickerControllerSourceType {
     
-    case photoLibrary(XHPhotoViewerType),camera
+    case photoLibrary,camera
 
 }
 
@@ -19,6 +19,17 @@ enum XHPhotoViewerType {
     case mutable,single
     
 }
+
+struct XHImagePickerMediaType: OptionSet {
+    
+    public let rawValue: UInt
+    
+    static let video = XHImagePickerMediaType(rawValue: 0)
+    
+    static let photo = XHImagePickerMediaType(rawValue: 1)
+    
+}
+
 
 @objc protocol XHImagePickerControllerDelegate: NSObjectProtocol {
     
@@ -38,10 +49,29 @@ class XHImagePickerController: UINavigationController {
     
     private(set) var sourceType: XHImagePickerControllerSourceType
     
-    internal(set) var viewerType: XHPhotoViewerType?
+    private(set) var viewerType: XHPhotoViewerType
     
-    init(sourceType: XHImagePickerControllerSourceType) {
+    private var _maxSelectedCount: Int = 0
+    
+    var mediaTypes: XHImagePickerMediaType = .photo
+    
+    var maxSelectedCount: Int {
+        set {
+            if viewerType == .mutable && sourceType == .photoLibrary {
+                _maxSelectedCount = newValue
+            }
+        }
+        get {
+            return _maxSelectedCount
+        }
+    }
+    
+    init(sourceType: XHImagePickerControllerSourceType,for viewerType: XHPhotoViewerType = .single) {
         self.sourceType = sourceType
+        self.viewerType = viewerType
+        if viewerType == .single {
+            _maxSelectedCount = 1
+        }
         let item = UIBarButtonItem.appearance(whenContainedInInstancesOf: [XHImagePickerController.self])
         item.setTitleTextAttributes([.font: UIFont.systemFont(ofSize: 15),.foregroundColor: UIColor.white], for: .normal)
         super.init(nibName: nil, bundle: nil)
@@ -60,8 +90,7 @@ class XHImagePickerController: UINavigationController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
         switch sourceType {
-        case .photoLibrary(let viewerType):
-            self.viewerType = viewerType
+        case .photoLibrary:
             pushViewController(XHPhotoAlbumViewController(), animated: false)
         default:
             pushViewController(XHCameraViewController(), animated: false)

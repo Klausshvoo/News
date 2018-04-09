@@ -85,10 +85,10 @@ class XHHomeChannelAddCell: XHHomeChannelCell {
         super.init(frame: frame)
         label.theme_textColor = ThemeColorPicker.black
         label.theme_backgroundColor = ThemeColorPicker.white
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = 0.8
-        layer.shadowRadius = 2
-        layer.shadowOffset = CGSize(width: 1, height: 1)
+        contentView.layer.shadowColor = UIColor.black.cgColor
+        contentView.layer.shadowOpacity = 0.8
+        contentView.layer.shadowRadius = 2
+        contentView.layer.shadowOffset = CGSize(width: 1, height: 1)
     }
     
     override func setChannel(_ channel: XHHomeChannel) {

@@ -16,10 +16,10 @@ class XHPhotoCollectionViewController: UIViewController {
         }
     }
     
-    private var viewerType: XHPhotoViewerType {
+    private lazy var maxSelectedCount: Int = {
         let navigation = navigationController as! XHImagePickerController
-        return navigation.viewerType!
-    }
+        return navigation.maxSelectedCount
+    }()
     
     private let spaceMargin: CGFloat = 5
     
@@ -41,14 +41,19 @@ class XHPhotoCollectionViewController: UIViewController {
         temp.dataSource = self
         temp.bounces = false
         var inset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-        switch viewerType {
+        let navigation = navigationController as! XHImagePickerController
+        switch navigation.viewerType {
         case .mutable:
+            var height: CGFloat = 40
             temp.register(XHPhotoThumbMutableCell.self, forCellWithReuseIdentifier: "cell")
-            inset.bottom = 40
+            inset.bottom = height
             view.addSubview(mutableBar)
             mutableBar.translatesAutoresizingMaskIntoConstraints = false
-            mutableBar.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor).isActive = true
-            mutableBar.heightAnchor.constraint(equalToConstant: 40).isActive = true
+            mutableBar.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+            if UIScreen.main.bounds.height == 812 {
+                height += 32
+            }
+            mutableBar.heightAnchor.constraint(equalToConstant: height).isActive = true
             mutableBar.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
             mutableBar.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         case .single:
@@ -74,7 +79,9 @@ class XHPhotoCollectionViewController: UIViewController {
         super.viewDidLayoutSubviews()
         if collectionView.contentSize != .zero && !beginScrolled {
             beginScrolled = true
-            collectionView.scrollToItem(at: IndexPath(item: photoAblum.photos.count - 1, section: 0), at: .bottom, animated: false)
+            if photoAblum.count > 0 {
+                collectionView.scrollToItem(at: IndexPath(item: photoAblum.photos.count - 1, section: 0), at: .bottom, animated: false)
+            }
         }
     }
     
@@ -84,12 +91,22 @@ class XHPhotoCollectionViewController: UIViewController {
         }
     }
     
-    internal func reloadItemSelectState(at index: Int) {
-        let indexPath = IndexPath(item: index, section: 0)
-        collectionView.performBatchUpdates({[weak self] in
-            self?.collectionView.reloadItems(at: [indexPath])
-        }, completion: nil)
+    internal func reloadItemSelectState(at index: Int,for update: Bool = true) -> Bool {
+        let photo = photoAblum.photos[index]
+        let count = selectedPhotos.count
+        if maxSelectedCount > 0 && count == maxSelectedCount && !photo.isSelected {
+            print("最多可选择\(maxSelectedCount)张图片")
+            return false
+        }
+        photo.isSelected = !photo.isSelected
+        if update {
+            let indexPath = IndexPath(item: index, section: 0)
+            collectionView.performBatchUpdates({[weak self] in
+                self?.collectionView.reloadItems(at: [indexPath])
+                }, completion: nil)
+        }
         mutableBar.setSelectedCount(selectedPhotos.count)
+        return true
     }
 
     override func didReceiveMemoryWarning() {
@@ -117,20 +134,19 @@ extension XHPhotoCollectionViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let viewerController = XHPhotoViewerController()
-        switch viewerType {
+        let navigation = navigationController as! XHImagePickerController
+        switch navigation.viewerType {
         case .mutable:
             viewerController.setPhotosForMutableType(photoAblum.photos, at: indexPath.row)
         case .single:
             viewerController.setPhotoForSingleType(photoAblum.photos[indexPath.row])
         }
-        navigationController?.pushViewController(viewerController, animated: true)
+        navigation.pushViewController(viewerController, animated: true)
     }
     
-    fileprivate func photoSelectStateChanged(in cell: XHPhotoThumbMutableCell) {
+    fileprivate func photoSelectStateChanged(in cell: XHPhotoThumbMutableCell) -> Bool {
         let index = collectionView.indexPath(for: cell)!.row
-        let photo = photoAblum.photos[index]
-        photo.isSelected = !photo.isSelected
-        mutableBar.setSelectedCount(selectedPhotos.count)
+        return reloadItemSelectState(at: index, for: false)
     }
     
 }
@@ -191,9 +207,9 @@ private class XHPhotoThumbMutableCell: XHPhotoThumbCell {
     }
     
     @objc private func updateSelectState() {
-        selectedButton.isSelected = !selectedButton.isSelected
-        let controller = self.controller as? XHPhotoCollectionViewController
-        controller?.photoSelectStateChanged(in: self)
+        if let controller = self.controller as? XHPhotoCollectionViewController,controller.photoSelectStateChanged(in: self) {
+            selectedButton.isSelected = !selectedButton.isSelected
+        }
     }
     
     override func setPhoto(_ photo: XHPhoto) {

@@ -21,6 +21,8 @@ class XHChannelEditViewController: XHBottomPersentViewController {
     
     private var isUpdate: Bool = false
     
+    private var beginOffY: CGFloat?
+    
     private lazy var longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
     
     private lazy var collectionView: UICollectionView = {
@@ -85,6 +87,41 @@ class XHChannelEditViewController: XHBottomPersentViewController {
             }
         default:
             collectionView.cancelInteractiveMovement()
+        }
+    }
+    
+    override func handlePan(_ pan: UIPanGestureRecognizer) {
+        var percent: CGFloat = 0
+        var transition = pan.translation(in: view).y
+        if let beginOffY = self.beginOffY {
+            transition -= beginOffY
+        }
+        percent = transition / view.bounds.height
+        switch pan.state {
+        case .began:
+            isInteractive = true
+            beginOffY = collectionView.contentOffset.y
+            dismiss(animated: true, completion: nil)
+        case .changed:
+            if percent > 0 {
+                interactiveTransition.update(percent)
+            } else {
+                interactiveTransition.update(0)
+            }
+        case .ended:
+            isInteractive = false
+            if percent < 0.5 {
+                interactiveTransition.cancel()
+            } else {
+                interactiveTransition.finish()
+            }
+            beginOffY = 0
+        default:
+            isInteractive = false
+            interactiveTransition.cancel()
+        }
+        if collectionView.contentOffset.y == 0 {
+            
         }
     }
     

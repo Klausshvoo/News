@@ -77,8 +77,12 @@ class XHPhotoViewerController: UIViewController {
             view.addSubview(collectionView)
             view.addSubview(mutableBar)
             mutableBar.translatesAutoresizingMaskIntoConstraints = false
-            mutableBar.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor).isActive = true
-            mutableBar.heightAnchor.constraint(equalToConstant: 40).isActive = true
+            mutableBar.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+            var height: CGFloat = 40
+            if UIScreen.main.bounds.height == 812 {
+                height += 32
+            }
+            mutableBar.heightAnchor.constraint(equalToConstant: height).isActive = true
             mutableBar.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
             mutableBar.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
             changeImageForRightItem()
@@ -120,12 +124,11 @@ class XHPhotoViewerController: UIViewController {
     }
     
     @objc private func shouldSelectCurrentPhoto(_ sender: UIBarButtonItem) {
-        let photo = photos[currentIndex]
-        photo.isSelected = !photo.isSelected
-        let colletion = navigationController?.viewControllers[1] as? XHPhotoCollectionViewController
-        colletion?.reloadItemSelectState(at: currentIndex)
-        mutableBar.setSelectedCount(selectedPhotos.count)
-        changeImageForRightItem()
+        let colletion = navigationController!.viewControllers[1] as! XHPhotoCollectionViewController
+        if colletion.reloadItemSelectState(at: currentIndex) {
+            mutableBar.setSelectedCount(selectedPhotos.count)
+            changeImageForRightItem()
+        }
     }
     
     private func changeImageForRightItem() {
@@ -385,9 +388,12 @@ private class XHPhotoClipScrollView: XHPhotoViewerScrollView {
             self?.imageView.image = image
         }
         contentSize = CGSize(width: width, height: height)
-        if height < maxContentHeight  {
+        if height < maxContentHeight {
             let margin = (maxContentHeight - height) / 2
             contentInset = UIEdgeInsets(top: contentInset.top + margin, left: contentInset.left, bottom: contentInset.bottom + margin, right: contentInset.right)
+        } else {
+            let margin = (height - maxContentHeight) / 2 - contentInset.top
+            contentOffset = CGPoint(x: contentOffset.x, y: margin)
         }
         return index
     }
