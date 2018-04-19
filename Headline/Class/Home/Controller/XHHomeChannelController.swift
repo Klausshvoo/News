@@ -147,6 +147,8 @@ extension XHHomeChannelController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let webController = XHWebViewController(javaScriptMethods: ["test"])
+        
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.2) {
             tableView.deselectRow(at: indexPath, animated: true)
         }
