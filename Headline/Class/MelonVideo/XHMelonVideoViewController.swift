@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import LocalAuthentication
 
 class XHMelonVideoViewController: XHViewController,XHTabBarItemController {
 
@@ -36,6 +37,28 @@ class XHMelonVideoViewController: XHViewController,XHTabBarItemController {
         view.addSubview(searchButton)
         searchButton.addTarget(self, action: #selector(searchSomething), for: .touchUpInside)
         view.addSubview(editImageView)
+        let touchIdButton = UIButton(type: .system)
+        touchIdButton.setTitle("验证touchID", for: .normal)
+        view.addSubview(touchIdButton)
+        touchIdButton.frame = CGRect(x: 100, y: editImageView.frame.maxY + 10, width: 100, height: 100)
+        touchIdButton.addTarget(self, action: #selector(callTouchID), for: .touchUpInside)
+    }
+    
+    @objc func callTouchID() {
+        let context = LAContext()
+        context.localizedFallbackTitle = "输入密码"
+        var error: NSError?
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "验证touchID") { (succeed, error) in
+                if succeed {
+                    DispatchQueue.main.async {
+                        print("验证通过")
+                    }
+                } else {
+                    print("当前设备部支持touchID")
+                }
+            }
+        }
     }
     
     @objc func handleTap(_ tap: UITapGestureRecognizer) {
