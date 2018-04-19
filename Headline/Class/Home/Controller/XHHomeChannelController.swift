@@ -78,7 +78,14 @@ class XHHomeChannelController: UIViewController,XHPageController {
                         self?.tableView.insertRows(at: insertIndexPaths, with: .automatic)
                     })
                 case .footer:
+                    var appendIndexPaths = [IndexPath]()
+                    for index in 0 ..< models.count {
+                        appendIndexPaths.append(IndexPath(row: self!.models.count + index, section: 0))
+                    }
                     self?.models.append(contentsOf: models)
+                    self?.tableView.update({
+                        self?.tableView.insertRows(at: appendIndexPaths, with: .automatic)
+                    })
                 }
             }
             completion?()

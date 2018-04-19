@@ -11,7 +11,11 @@ import SwiftTheme
 
 class XHShareController: UIViewController {
     
-    fileprivate let barView = UIView(frame: CGRect(x: 0, y: UIScreen.main.bounds.height - 244, width: UIScreen.main.bounds.width, height: 244))
+    fileprivate let barView = UIView()
+    
+    private var isBarViewLoaded: Bool = false
+    
+    private var shareItems: [UIButton] = []
     
     convenience init() {
         self.init(nibName: nil, bundle: nil)
@@ -24,35 +28,78 @@ class XHShareController: UIViewController {
         view.backgroundColor = UIColor(red: 51/255.0, green: 51/255.0, blue: 51/255.0, alpha: 0.7)
         view.addSubview(barView)
         barView.theme_backgroundColor = ThemeColorPicker.background
-//        let button = UIButton(type: .custom)
-//        barView.addSubview(button)
-//        button.setTitle("取消", for: .normal)
-//        button.theme_setTitleColor(ThemeColorPicker.black, forState: .normal)
-//        button.snp.makeConstraints{
-//            $0.bottom.equalTo(barView)
-//            $0.height.equalTo(44)
-//            $0.left.equalToSuperview()
-//            $0.right.equalToSuperview()
-//        }
-//        button.theme_backgroundColor = ThemeColorPicker.white
-        let layout = XHPickerViewLayout()
-        layout.indicatorStyle = .highlight
-        let picker = XHPickerView(frame: barView.bounds, layout: layout)
-        barView.addSubview(picker)
-        picker.dataSource = self
-        picker.register(XHPickerViewCell.self, forCellReuseIdentifier: "cell")
-        picker.reloadData()
-        picker.delegate = self
+        barView.translatesAutoresizingMaskIntoConstraints = false
+        barView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        barView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        barView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor).isActive = true
+        barView.heightAnchor.constraint(equalToConstant: 224).isActive = true
+        let button = UIButton(type: .custom)
+        barView.addSubview(button)
+        button.setTitle("取消", for: .normal)
+        button.theme_setTitleColor(ThemeColorPicker.black, forState: .normal)
+        button.snp.makeConstraints{
+            $0.bottom.equalTo(barView)
+            $0.height.equalTo(44)
+            $0.left.equalToSuperview()
+            $0.right.equalToSuperview()
+        }
+        button.theme_backgroundColor = ThemeColorPicker.white
+        button.addTarget(self, action: #selector(dismissForCancle), for: .touchUpInside)
+        configureShareItems()
     }
     
-    fileprivate func animatedItems() {
-//        let shareItemNames = ["qqicon_login_profile","sinaicon_login_profile","weixinicon_login_profile"]
-//        for itemName in shareItemNames {
-//            let button = UIButton(type: .custom)
-//            button.theme_setImage(ThemeImagePicker(names: itemName,"\(itemName)_night"), forState: .normal)
-//            barView.addSubview(button)
-//
-//        }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if !isBarViewLoaded,barView.frame != .zero {
+            isBarViewLoaded = true
+            barView.transform = CGAffineTransform(translationX: 0, y: UIScreen.main.bounds.height - barView.frame.minY)
+            UIView.animate(withDuration: 0.2, animations: {[weak self] in
+                self?.barView.transform = .identity
+            })
+            animatedItems()
+        }
+    }
+    
+    fileprivate func configureShareItems() {
+        let scrollView = UIScrollView(frame: .zero)
+        barView.addSubview(scrollView)
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.leftAnchor.constraint(equalTo: barView.leftAnchor).isActive = true
+        scrollView.rightAnchor.constraint(equalTo: barView.rightAnchor).isActive = true
+        scrollView.topAnchor.constraint(equalTo: barView.topAnchor).isActive = true
+        scrollView.heightAnchor.constraint(equalTo: barView.heightAnchor, multiplier: 0.5).isActive = true
+        let shareItemTypes: [XHShareType] = [.sina,.weixin]
+        for shareType in shareItemTypes {
+            let button = UIButton(type: .custom)
+            let iconName = shareType.icon
+            let image = UIImage(named: Theme.shared.style == .day ? iconName : "\(iconName)_night")
+            button.setImage(image, for: .normal)
+            scrollView.addSubview(button)
+            button.setPositionStyle(.vertical, padding: 6)
+            button.translatesAutoresizingMaskIntoConstraints = false
+            button.leftAnchor.constraint(equalTo: shareItems.isEmpty ? scrollView.leftAnchor : shareItems.last!.rightAnchor, constant: 20).isActive = true
+            button.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 40).isActive = true
+            button.widthAnchor.constraint(equalToConstant: image!.size.width).isActive = true
+            button.heightAnchor.constraint(equalToConstant: image!.size.height + 20).isActive = true
+            button.theme_setTitleColor(ThemeColorPicker.black, forState: .normal)
+            button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+            button.setTitle(shareType.name, for: .normal)
+            button.tag = shareType.rawValue
+            shareItems.append(button)
+        }
+    }
+    
+    private func animatedItems() {
+        for index in 0 ..< shareItems.count {
+            let item = shareItems[index]
+            UIView.animate(withDuration: 0.2, delay: TimeInterval(index + 1) * 0.1, options: .curveEaseInOut, animations: {
+                item.transform = CGAffineTransform(translationX: 0, y: -20)
+            }, completion: nil)
+        }
+    }
+    
+    @objc private func dismissForCancle() {
+        dismiss(animated: true, completion: nil)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -69,45 +116,28 @@ class XHShareController: UIViewController {
 
 }
 
-extension XHShareController: XHPickerViewDataSource {
+enum XHShareType: Int {
+    case qq,sina,weixin
     
-    func picker(_ picker: XHPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 12
+    var name: String {
+        switch self {
+        case .qq:
+            return "QQ"
+        case .sina:
+            return "新浪"
+        case .weixin:
+            return "微信"
+        }
     }
     
-    func picker(_ picker: XHPickerView, cellForRowAt indexPath: IndexPath) -> XHPickerViewCell {
-        let cell = picker.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.label.text = "\(indexPath.row)"
-        return cell
-    }
-    
-    
-    func numberOfComponents(_ picker: XHPickerView) -> Int {
-        return 2
-    }
-    
-}
-
-extension XHShareController: XHPickerViewDelegate {
-    
-    func picker(_ picker: XHPickerView, didSelectRowAt indexPath: IndexPath) {
-        
-    }
-    
-//    func picker(_ picker: XHPickerView, willSelectRowAt indexPath: IndexPath) {
-//        let cell = picker.cellForRow(at: indexPath)
-//        cell.contentView.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
-//    }
-//
-//    func picker(_ picker: XHPickerView, willDeselectRowAt indexPath: IndexPath) {
-//        let cell = picker.cellForRow(at: indexPath)
-//        cell.contentView.transform = CGAffineTransform.identity
-//    }
-    
-    func picker(_ picker: XHPickerView, didScrollIn component: Int) {
-        let cells = picker.cellsIntersectWithIndicatorView(inComponent: component)
-        for (cell,rect) in cells {
-            cell.label.selectedRect = rect
+    var icon: String {
+        switch self {
+        case .qq:
+            return "qqicon_login_profile"
+        case .sina:
+            return "sinaicon_login_profile"
+        case .weixin:
+            return "weixinicon_login_profile"
         }
     }
     
@@ -134,18 +164,7 @@ class XHShareControllerTransitioning: XHViewControllerAnimatedTransitioning {
         case .present:
             let containerView = transitionContext.containerView
             containerView.addSubview(toVC.view)
-            if transitionContext.isAnimated {
-                let barView = (toVC as! XHShareController).barView
-                barView.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: barView.bounds.width, height: barView.bounds.height)
-                UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: {
-                    barView.frame = CGRect(x: 0, y: UIScreen.main.bounds.height - barView.bounds.height, width: barView.bounds.width, height: barView.bounds.height)
-                }, completion: { (_) in
-                    transitionContext.completeTransition(true)
-                    (toVC as! XHShareController).animatedItems()
-                })
-            } else {
-                transitionContext.completeTransition(true)
-            }
+            transitionContext.completeTransition(true)
         default:
             if transitionContext.isAnimated {
                 let barView = (fromVC as! XHShareController).barView
