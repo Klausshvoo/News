@@ -33,6 +33,7 @@
 		0A114201205A5C9700E93C98 /* XHTriangleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A114200205A5C9700E93C98 /* XHTriangleViewController.swift */; };
 		0A114203205A644D00E93C98 /* XHNewsDislikeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A114202205A644D00E93C98 /* XHNewsDislikeController.swift */; };
 		0A13CE68208834A200103F32 /* XHPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A13CE67208834A200103F32 /* XHPickerViewController.swift */; };
+		0A13CE6A2088795600103F32 /* XHTouchImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A13CE692088795600103F32 /* XHTouchImageViewController.swift */; };
 		0A19385E2060AA10006A4858 /* XHHomeVideoShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A19385D2060AA10006A4858 /* XHHomeVideoShareView.swift */; };
 		0A1938602060D73A006A4858 /* XHShareController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A19385F2060D73A006A4858 /* XHShareController.swift */; };
 		0A27145C207B3FA000A87009 /* XHWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A27145B207B3FA000A87009 /* XHWindow.swift */; };
@@ -100,6 +101,7 @@
 		0A114200205A5C9700E93C98 /* XHTriangleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHTriangleViewController.swift; sourceTree = "<group>"; };
 		0A114202205A644D00E93C98 /* XHNewsDislikeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHNewsDislikeController.swift; sourceTree = "<group>"; };
 		0A13CE67208834A200103F32 /* XHPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHPickerViewController.swift; sourceTree = "<group>"; };
+		0A13CE692088795600103F32 /* XHTouchImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHTouchImageViewController.swift; sourceTree = "<group>"; };
 		0A19385D2060AA10006A4858 /* XHHomeVideoShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHHomeVideoShareView.swift; sourceTree = "<group>"; };
 		0A19385F2060D73A006A4858 /* XHShareController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHShareController.swift; sourceTree = "<group>"; };
 		0A27145B207B3FA000A87009 /* XHWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XHWindow.swift; sourceTree = "<group>"; };
@@ -324,6 +326,7 @@
 				0A31665A205F49E600F7EE9A /* XHVideoCoverView.swift */,
 				0A7F0D3F2079E297006D9122 /* XHEnvirnmentPopupController.swift */,
 				0A27145B207B3FA000A87009 /* XHWindow.swift */,
+				0A13CE692088795600103F32 /* XHTouchImageViewController.swift */,
 				0A72EB332071D2C30022169A /* XHSearchCollectionView */,
 				0A01C108206A0D570076A628 /* XHPickerView */,
 				0A01C107206A0D2F0076A628 /* XHImagePicker */,
@@ -525,6 +528,7 @@
 				0A0D88AD20579E040050A55D /* XHRefreshGifHeader.swift in Sources */,
 				0A6250A720562EA000BB07FE /* XHTabBarItemController.swift in Sources */,
 				0A6250A32056264300BB07FE /* Theme.swift in Sources */,
+				0A13CE6A2088795600103F32 /* XHTouchImageViewController.swift in Sources */,
 				0A0D88B52057BCE40050A55D /* XHHomeChannelController.swift in Sources */,
 				0A625099205619F600BB07FE /* XHWeiHeadlineViewController.swift in Sources */,
 				0A03BA142068892C004604B9 /* XHImageViewerController.swift in Sources */,

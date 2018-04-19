@@ -17,6 +17,12 @@ class XHMelonVideoViewController: XHViewController,XHTabBarItemController {
     
     var editImageView = UIImageView(frame: CGRect(x: 100, y: 400, width: 100, height: 100))
     
+    lazy var touchIDContext: LAContext = {
+        let temp = LAContext()
+        temp.localizedFallbackTitle = "请输入密码"
+        return temp
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let imageView = UIImageView(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
@@ -25,6 +31,8 @@ class XHMelonVideoViewController: XHViewController,XHTabBarItemController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
         imageView.addGestureRecognizer(tap)
         imageView.isUserInteractionEnabled = true
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+        imageView.addGestureRecognizer(longPress)
         let button = UIButton(type: .system)
         button.setTitle("拍照或选照片", for: .normal)
         button.frame = CGRect(x: 100, y: 300, width: 100, height: 50)
@@ -37,27 +45,61 @@ class XHMelonVideoViewController: XHViewController,XHTabBarItemController {
         view.addSubview(searchButton)
         searchButton.addTarget(self, action: #selector(searchSomething), for: .touchUpInside)
         view.addSubview(editImageView)
-        let touchIdButton = UIButton(type: .system)
-        touchIdButton.setTitle("验证touchID", for: .normal)
-        view.addSubview(touchIdButton)
-        touchIdButton.frame = CGRect(x: 100, y: editImageView.frame.maxY + 10, width: 100, height: 100)
-        touchIdButton.addTarget(self, action: #selector(callTouchID), for: .touchUpInside)
+        var error: NSError?
+        if touchIDContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            let touchIdButton = UIButton(type: .system)
+            touchIdButton.setTitle("验证touchID", for: .normal)
+            view.addSubview(touchIdButton)
+            touchIdButton.frame = CGRect(x: 100, y: editImageView.frame.maxY + 10, width: 100, height: 100)
+            touchIdButton.addTarget(self, action: #selector(callTouchID), for: .touchUpInside)
+        } else {
+            if let error = error as? LAError {
+                print(error.code.rawValue)
+            }
+        }
     }
     
     @objc func callTouchID() {
-        let context = LAContext()
-        context.localizedFallbackTitle = "输入密码"
-        var error: NSError?
-        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "验证touchID") { (succeed, error) in
-                if succeed {
-                    DispatchQueue.main.async {
-                        print("验证通过")
+        touchIDContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "验证touchID") { (succeed, error) in
+            if succeed {
+                DispatchQueue.main.async {
+                    print("验证通过")
+                }
+            } else {
+                if let error = error as? LAError {
+                    switch error.code {
+                    case .authenticationFailed:
+                        print("验证失败")
+                    case .userCancel:
+                        print("用户取消")
+                    case .userFallback:
+                        print("用户选择手动输入密码")
+                    case .systemCancel:
+                        print("系统取消")
+                    case .passcodeNotSet:
+                        print("无法调用touchID，用户未设置密码")
+                    case .touchIDNotAvailable:
+                        print("touchID无效")
+                    case .touchIDNotEnrolled:
+                        print("无法调用touchID，用户未设置touchID")
+                    case .touchIDLockout:
+                        print("touchID被锁定，用户连续多次验证失败")
+                    case .appCancel:
+                        print("当前App被挂起，取消授权")
+                    case .invalidContext:
+                        print("上下文无效")
+                    case .notInteractive:
+                        print("无交互")
                     }
-                } else {
-                    print("当前设备部支持touchID")
                 }
             }
+        }
+    }
+    
+    @objc private func handleLongPress(_ longPress: UILongPressGestureRecognizer) {
+        if longPress.state == .began {
+            registerForPreviewing(with: self, sourceView: longPress.view!)
+            
         }
     }
     
@@ -126,4 +168,17 @@ extension XHMelonVideoViewController: XHImagePickerControllerDelegate {
         editImageView.image = UIImage(data: data!)
         picker.dismiss(animated: true, completion: nil)
     }
+}
+
+extension XHMelonVideoViewController: UIViewControllerPreviewingDelegate {
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        let touchImageController = XHTouchImageViewController()
+        return touchImageController
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        show(viewControllerToCommit, sender: self)
+    }
+    
 }
