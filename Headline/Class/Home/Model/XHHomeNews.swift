@@ -34,6 +34,8 @@ class XHHomeNews: NSObject,Decodable {
     
     var image_list: [XHImageModel]?
     
+    var article_url: String?
+    
     private var video_duration: TimeInterval?
     
     lazy var videoDuration: String? = {

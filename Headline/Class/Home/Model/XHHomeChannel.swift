@@ -169,7 +169,7 @@ class XHHomeChannel: NSObject,Decodable {
     }
     
     static func queryChannels(completion: @escaping ([XHHomeChannel]?) -> Void) {
-        XHNetwork.shared.get("/article/category/get_subscribed/v1/?", parameters: ["device_id": device_id,"iid": iid], isReadCache: false) { (response: XHNetworkResponse<Result>) in
+        XHNetwork.shared.get("/article/category/get_subscribed/v1/?", parameters: ["device_id": device_id,"iid": iid], cacheType: XHNetworkCacheType.none) { (response: XHNetworkResponse<Result>) in
             switch response {
             case .success(let result):
                 completion(result.data.data)
@@ -180,7 +180,7 @@ class XHHomeChannel: NSObject,Decodable {
     }
     
     static func queryAllChannels(completion: @escaping ([XHHomeChannel]?) -> Void) {
-        XHNetwork.shared.get("/article/category/get_extra/v1/?", parameters: ["device_id": device_id,"iid": iid], isReadCache: true) { (response: XHNetworkResponse<Result>) in
+        XHNetwork.shared.get("/article/category/get_extra/v1/?", parameters: ["device_id": device_id,"iid": iid], cacheType: XHNetworkCacheType.none) { (response: XHNetworkResponse<Result>) in
             switch response {
             case .success(let result):
                 completion(result.data.data)
@@ -211,13 +211,14 @@ enum XHRefreshType {
 extension XHHomeChannel.XHChannelCategory {
     
     func queryNews(refreshType: XHRefreshType,completion: @escaping (XHNewsResponse?) -> Void) {
-        XHNetwork.shared.get("/api/news/feed/v58/?", parameters: ["device_id": device_id,"iid": iid,"category": rawValue,"device_platform": "iphone","version_code": "6.2.7"], isReadCache: true) { (response: XHNetworkResponse<XHNewsResponse>) in
+        XHNetwork.shared.get("/api/news/feed/v58/?", parameters: ["device_id": device_id,"iid": iid,"category": rawValue,"device_platform": "iphone","version_code": "6.2.7"], cacheType: .destination(XHNetworkCacheType.XHCacheInfo(destination: .disk))) { (response: XHNetworkResponse<XHNewsResponse>) in
             switch response {
             case .success(let result):
                 completion(result)
             case .failure(_):
                 print("网络请求错误")
             }
+
         }
     }
 }

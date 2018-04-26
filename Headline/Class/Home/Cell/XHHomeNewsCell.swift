@@ -232,8 +232,7 @@ class XHHomeNewsNormalCell: XHHomeNewsCell {
     
     @objc private func didClickDislike(_ sender: UIButton) {
         if _news?.filter_words != nil {
-            let dislikeController = XHNewsDislikeController(targetView: sender)
-            dislikeController.news = _news
+            let dislikeController = XHNewsDislikeController(targetView: sender, news: _news!)
             dislikeController.delegate = _delegate
             controller?.present(dislikeController, animated: true, completion: nil)
         }

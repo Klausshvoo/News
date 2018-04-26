@@ -11,19 +11,25 @@ import SwiftTheme
 
 class XHNewsDislikeController: XHTriangleViewController {
     
-    override var contentSize: CGSize {
-        let width = UIScreen.main.bounds.width - 20
-        return CGSize(width: width, height: 55 + CGFloat((filterWords.count + 1) / 2) * 35)
-    }
-    
     private let titleLabel = UILabel()
     
     private let dislikeButton = UIButton(type: .custom)
     
-    var news: XHHomeNews!
+    private var news: XHHomeNews
     
     private var filterWords: [XHFilterWords] {
         return news.filter_words!
+    }
+    
+    init(targetView: UIView,news: XHHomeNews) {
+        self.news = news;
+        let width = UIScreen.main.bounds.width - 20
+        let size = CGSize(width: width, height: 55 + CGFloat((news.filter_words!.count + 1) / 2) * 35)
+        super.init(targetView: targetView, contentSize: size)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     weak var delegate: XHNewsDislikeControllerDelegate?
@@ -33,7 +39,7 @@ class XHNewsDislikeController: XHTriangleViewController {
         contentView.addSubview(titleLabel)
         titleLabel.snp.makeConstraints{
             $0.left.equalTo(10)
-            $0.top.equalToSuperview()
+            $0.top.equalTo(currentDirection == .down ? 0 : arrowSize.height)
             $0.height.equalTo(50)
         }
         titleLabel.theme_textColor = ThemeColorPicker.black
